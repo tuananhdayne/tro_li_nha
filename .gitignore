@@ -32,3 +32,10 @@ packages/
 # Large files in root
 *.zip
 CH341SER.EXE
+
+# ===== SENSITIVE FILES - DO NOT COMMIT =====
+**/appsettings.json
+**/appsettings.*.json
+**/secrets.json
+**/*.pfx
+**/*.p12
