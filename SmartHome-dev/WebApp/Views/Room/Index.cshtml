@@ -1,0 +1,266 @@
+﻿@model Dictionary<DAO.BaseModels.House, IEnumerable<DAO.BaseModels.Room>>
+@{
+    ViewData["Title"] = "Danh sách phòng";
+    var houseId = ViewBag.HouseId as int?;
+    var houses = Model.Keys.ToList();
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Phòng</h2>
+        <p>@(houseId != null ? "Phòng trong nhà đã chọn" : "Tất cả phòng theo nhà")</p>
+    </div>
+    <div class="topbar-actions">
+        <button onclick="openAddRoomModal()" class="btn btn-primary">+ Thêm phòng</button>
+        @if (houseId != null)
+        {
+            <a asp-action="Index" class="btn btn-secondary">Xem tất cả</a>
+        }
+    </div>
+</div>
+
+<div class="content">
+    @if (!Model.Any() || !Model.Values.Any(r => r.Any()))
+    {
+        <div class="card" style="max-width: 500px; margin: 2rem auto; text-align: center;">
+            <div class="card-body">
+                <h3 style="margin-bottom: 0.5rem;">Chưa có phòng nào</h3>
+                <p class="text-muted" style="margin-bottom: 1.5rem;">Hãy thêm phòng mới để bắt đầu</p>
+                <button onclick="openAddRoomModal()" class="btn btn-primary">+ Thêm phòng</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        @foreach (var kv in Model)
+        {
+            var house = kv.Key;
+            var rooms = kv.Value;
+            
+            <div style="margin-bottom: 2rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <h3 style="font-size: 1.1rem;">@house.Name</h3>
+                    <span class="badge badge-success">@rooms.Count() phòng</span>
+                    <span class="text-muted" style="font-size: 0.85rem;">@(house.Location ?? "")</span>
+                </div>
+                
+                @if (!rooms.Any())
+                {
+                    <div class="card" style="max-width: 400px;">
+                        <div class="card-body">
+                            <p class="text-muted">Nhà này chưa có phòng.</p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="cards-grid">
+                        @foreach (var room in rooms)
+                        {
+                            <div class="card" style="@(room.IsActive ? "" : "opacity: 0.6;")">
+                                <div class="card-header">
+                                    <div class="card-header-left">
+                                        <div>
+                                            <div class="card-title">
+                                                @room.Name
+                                                @if (room.IsActive)
+                                                {
+                                                    <span class="badge badge-success" style="font-size: 0.7rem; margin-left: 0.5rem;">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-danger" style="font-size: 0.7rem; margin-left: 0.5rem;">Inactive</span>
+                                                }
+                                            </div>
+                                            <div class="card-subtitle">@(room.Detail ?? "Không có mô tả")</div>
+                                        </div>
+                                    </div>
+                                    <span class="badge badge-success">@room.Devices.Count thiết bị</span>
+                                </div>
+                                <div class="card-footer">
+                                    <a asp-controller="Device" asp-action="Index" asp-route-roomId="@room.ID" class="btn btn-primary btn-sm">Thiết bị</a>
+                                    <button onclick="openEditRoomModal(@room.ID, '@room.Name', '@(room.Detail ?? "")', @room.HouseID, @(room.IsActive ? "true" : "false"))" class="btn btn-secondary btn-sm">Sửa</button>
+                                    <button onclick="openDeleteRoomModal(@room.ID, '@room.Name', @room.Devices.Count)" class="btn btn-danger btn-sm">Xóa</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
+
+<!-- Modal Thêm phòng -->
+<div id="addRoomModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width: 450px; width: 90%; margin: 0;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Thêm phòng mới</div>
+                    <div class="card-subtitle">Tạo phòng để quản lý thiết bị</div>
+                </div>
+            </div>
+        </div>
+        <form asp-action="Create" method="post" id="addRoomForm">
+            @Html.AntiForgeryToken()
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="form-label">Chọn nhà <span style="color: var(--primary);">*</span></label>
+                    <select name="houseId" id="roomHouseId" class="form-input" required>
+                        <option value="">-- Chọn nhà --</option>
+                        @foreach (var house in houses)
+                        {
+                            if (houseId != null && house.ID == houseId)
+                            {
+                                <option value="@house.ID" selected>@house.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@house.ID">@house.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Tên phòng <span style="color: var(--primary);">*</span></label>
+                    <input type="text" name="name" id="roomName" class="form-input" placeholder="VD: Phòng khách, Phòng ngủ 1..." required />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Mô tả</label>
+                    <input type="text" name="detail" id="roomDetail" class="form-input" placeholder="VD: Tầng 1, Khu vực A..." />
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Tạo phòng</button>
+                <button type="button" onclick="closeAddRoomModal()" class="btn btn-secondary">Hủy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Sửa phòng -->
+<div id="editRoomModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width: 450px; width: 90%; margin: 0;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Sửa phòng</div>
+                    <div class="card-subtitle">Cập nhật thông tin phòng</div>
+                </div>
+            </div>
+        </div>
+        <form asp-action="Edit" method="post" id="editRoomForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="ID" id="editRoomId" />
+            <input type="hidden" name="HouseID" id="editRoomHouseId" />
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="form-label">Tên phòng <span style="color: var(--primary);">*</span></label>
+                    <input type="text" name="Name" id="editRoomName" class="form-input" required />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Mô tả</label>
+                    <input type="text" name="Detail" id="editRoomDetail" class="form-input" placeholder="Mô tả phòng..." />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                        <input type="checkbox" name="IsActive" id="editRoomIsActive" value="true" style="width: 18px; height: 18px;" />
+                        <input type="hidden" name="IsActive" value="false" />
+                        <span>Kích hoạt phòng (Active)</span>
+                    </label>
+                    <small class="text-muted">Phòng inactive sẽ không hiển thị thiết bị</small>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Lưu thay đổi</button>
+                <button type="button" onclick="closeEditRoomModal()" class="btn btn-secondary">Hủy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Xóa phòng -->
+<div id="deleteRoomModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width: 450px; width: 90%; margin: 0;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Xóa phòng</div>
+                    <div class="card-subtitle">Xác nhận xóa phòng</div>
+                </div>
+            </div>
+        </div>
+        <form asp-action="Delete" method="post" id="deleteRoomForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="roomId" id="deleteRoomId" />
+            <div class="card-body">
+                <p>Bạn có chắc chắn muốn xóa phòng <strong id="deleteRoomName"></strong>?</p>
+                <p id="deleteRoomDeviceCount" class="text-muted"></p>
+                
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(220,38,38,0.15); border-radius: 8px; border-left: 4px solid #dc2626;">
+                    <strong style="color: #dc2626;">Cảnh báo:</strong> Hành động này không thể hoàn tác!
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-danger" style="flex: 1;">Xóa phòng</button>
+                <button type="button" onclick="closeDeleteRoomModal()" class="btn btn-secondary">Hủy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+// Add Room Modal
+function openAddRoomModal() {
+    document.getElementById('addRoomModal').style.display = 'flex';
+    document.getElementById('roomName').value = '';
+    document.getElementById('roomDetail').value = '';
+}
+
+function closeAddRoomModal() {
+    document.getElementById('addRoomModal').style.display = 'none';
+}
+
+// Edit Room Modal
+function openEditRoomModal(id, name, detail, houseId, isActive) {
+    document.getElementById('editRoomModal').style.display = 'flex';
+    document.getElementById('editRoomId').value = id;
+    document.getElementById('editRoomName').value = name;
+    document.getElementById('editRoomDetail').value = detail;
+    document.getElementById('editRoomHouseId').value = houseId;
+    document.getElementById('editRoomIsActive').checked = isActive;
+}
+
+function closeEditRoomModal() {
+    document.getElementById('editRoomModal').style.display = 'none';
+}
+
+// Delete Room Modal
+function openDeleteRoomModal(id, name, deviceCount) {
+    document.getElementById('deleteRoomModal').style.display = 'flex';
+    document.getElementById('deleteRoomId').value = id;
+    document.getElementById('deleteRoomName').textContent = name;
+    document.getElementById('deleteRoomDeviceCount').textContent = 
+        deviceCount > 0 ? `Phòng này có ${deviceCount} thiết bị sẽ bị xóa.` : 'Phòng này không có thiết bị.';
+}
+
+function closeDeleteRoomModal() {
+    document.getElementById('deleteRoomModal').style.display = 'none';
+}
+
+// Close modals on outside click
+['addRoomModal', 'editRoomModal', 'deleteRoomModal'].forEach(id => {
+    document.getElementById(id).addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.style.display = 'none';
+        }
+    });
+});
+</script>
+}

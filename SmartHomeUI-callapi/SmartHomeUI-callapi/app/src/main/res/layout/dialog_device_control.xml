@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chỉ là layout thường; KHÔNG dùng BottomSheetDialog làm root -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Điều khiển thiết bị"
+        android:textStyle="bold"
+        android:textSize="18sp" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/swPower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bật/Tắt"
+        android:layout_marginTop="12dp"/>
+
+    <!-- LIGHT -->
+    <LinearLayout
+        android:id="@+id/groupLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Độ sáng"/>
+
+        <SeekBar
+            android:id="@+id/seekBrightness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"/>
+
+        <!-- ... bên trong groupLight ... -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Màu sắc"
+            android:layout_marginTop="12dp"/>
+
+        <Button
+            android:id="@+id/btnPickColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn màu" />
+
+    </LinearLayout>
+
+    <!-- FAN -->
+    <LinearLayout
+        android:id="@+id/groupFan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tốc độ quạt (0–3)"/>
+
+        <SeekBar
+            android:id="@+id/seekSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="3" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đóng"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

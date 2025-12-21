@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Admin Dashboard</h2>
+        <p>Quản lý hệ thống SmartHome</p>
+    </div>
+</div>
+
+<div class="content">
+    <div class="cards-grid">
+        <a asp-action="ManageUsers" class="card" style="text-decoration: none; color: inherit;">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div>
+                        <div class="card-title">Quản lý người dùng</div>
+                        <div class="card-subtitle">Xem và chỉnh sửa tài khoản</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        
+        <a asp-action="ManageHouses" class="card" style="text-decoration: none; color: inherit;">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div>
+                        <div class="card-title">Quản lý nhà</div>
+                        <div class="card-subtitle">Xem tất cả nhà trong hệ thống</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        
+        <a asp-action="ManageDevices" class="card" style="text-decoration: none; color: inherit;">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div>
+                        <div class="card-title">Quản lý thiết bị</div>
+                        <div class="card-subtitle">Xem tất cả thiết bị</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

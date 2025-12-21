@@ -1,0 +1,44 @@
+@model IEnumerable<DAO.BaseModels.Device>
+@{
+    ViewData["Title"] = "Quản lý thiết bị";
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Quản lý thiết bị</h2>
+        <p>Tất cả thiết bị trong hệ thống</p>
+    </div>
+    <div class="topbar-actions">
+        <a asp-action="Index" class="btn btn-secondary">← Quay lại</a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Loại</th>
+                    <th>MAC</th>
+                    <th>Trạng thái</th>
+                    <th>Phòng ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var device in Model)
+                {
+                    <tr>
+                        <td>@device.ID</td>
+                        <td>@device.Name</td>
+                        <td>@device.Type</td>
+                        <td>@device.MacAddress</td>
+                        <td>@(device.Status ?? "N/A")</td>
+                        <td>@device.RoomID</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

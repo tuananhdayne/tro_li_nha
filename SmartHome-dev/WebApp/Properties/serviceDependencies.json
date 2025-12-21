@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+<<<<<<< HEAD
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:WebAppContextConnection"
+=======
+    "secrets1": {
+      "type": "secrets"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:SmartHomeContextConnection",
+      "dynamicId": null
+>>>>>>> df3af0565a0b1ce6a5feaa17e90a6e5765382270
+    }
+  }
+}

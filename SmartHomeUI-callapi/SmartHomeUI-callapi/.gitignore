@@ -1,0 +1,46 @@
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- IDE / Editor ---
+.idea/
+*.iml
+.vscode/
+
+# --- Gradle (máy-local) ---
+.gradle/
+local.properties     
+key.properties
+
+# --- Build outputs ---
+/build/
+*/build/
+out/
+.cxx/
+.externalNativeBuild/
+captures/
+
+# --- Android/Java artifacts ---
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+*.log
+*.hprof
+
+# --- Signing files (tuyệt đối không push) ---
+*.jks
+*.keystore
+
+# --- Misc (tùy chọn, nếu dùng) ---
+# .env
+# .history
+
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/.idea
+

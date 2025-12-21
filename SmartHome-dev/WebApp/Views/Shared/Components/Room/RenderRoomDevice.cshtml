@@ -1,0 +1,70 @@
+﻿@using System.Security.Claims
+@using DAO.Context
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.EntityFrameworkCore
+@inject SmartHomeContext context
+@model IEnumerable<DAO.BaseModels.Device>
+@{
+    var roomId = ViewBag.RoomId;
+}
+@* Generate a table of device *@
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User)
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+    <tr></tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                <a asp-action="RemoveDeviceFromRoom" asp-controller="Room" asp-route-roomId="@roomId" asp-route-deviceId="@item.ID">Remove</a>
+            </td>
+        </tr>
+    }
+    @{
+        // from DI container get the SmartHomeContext
+        var unAssignedDevices = context.Devices.Include(d => d.User).Where(d => d.RoomID == null && d.UserID == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList();
+        foreach (var device in unAssignedDevices)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => device.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => device.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => device.User.Email)
+                </td>
+                <td>
+                    <a asp-action="AddDeviceToRoom" asp-controller="Room" asp-route-roomId="@roomId" asp-route-deviceId="@device.ID">Add</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="200dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="200dp">
+
+        <!-- Dải nền phía dưới -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_5" />
+
+        <!-- Nội dung chính: icon + tiêu đề + location -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- Thêm nút menu ở góc trên bên phải -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivRoomIcon"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/ic_house_green"
+                    android:contentDescription="@string/app_name" />
+
+                <ImageButton
+                    android:id="@+id/btnMenuOptions"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_more_vert"
+                    android:contentDescription="Menu tùy chọn" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvRoomName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Tên"
+                android:textColor="@color/textColor"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Subtitle: hiển thị chi tiết phòng (detail) -->
+            <TextView
+                android:id="@+id/tvSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                android:drawablePadding="6dp"
+                android:paddingTop="2dp"
+                android:text="Mô tả phòng"
+                android:visibility="visible" />
+
+            <!-- Sensors Display -->
+            <LinearLayout
+                android:id="@+id/sensorsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvTemperature"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--°C"
+                    android:textSize="13sp"
+                    android:textColor="#999999"
+                    android:drawableStart="@android:drawable/ic_delete"
+                    android:drawablePadding="4dp" />
+
+                <TextView
+                    android:id="@+id/tvHumidity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--%"
+                    android:textSize="13sp"
+                    android:textColor="#999999"
+                    android:drawableStart="@android:drawable/ic_delete"
+                    android:drawablePadding="4dp" />
+
+                <TextView
+                    android:id="@+id/tvMotion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--"
+                    android:textSize="13sp"
+                    android:textColor="#999999"
+                    android:drawableStart="@android:drawable/ic_delete"
+                    android:drawablePadding="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Thanh thông tin + công tắc -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp">
+
+            <!-- Đếm số phòng/thiết bị (adapter sẽ set text) -->
+            <TextView
+                android:id="@+id/tvDeviceCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="0 thiết bị"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/swMaster"
+                android:layout_width="65dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:checked="false" />
+        </RelativeLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_green_pattern">
+
+    <!-- Header mờ: Back + tiêu đề phòng -->
+    <LinearLayout
+        android:id="@+id/headerBar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="16dp"
+        android:background="#33000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_chevron_left_black_24dp"
+            android:contentDescription="@string/app_name"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tvRoomTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="Thiết bị trong phòng"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:paddingStart="8dp" />
+    </LinearLayout>
+
+    <!-- Danh sách thiết bị -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDevices"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="96dp"
+    android:clipToPadding="false"
+    app:layout_constraintTop_toBottomOf="@id/headerBar"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Nút thêm thiết bị (FAB) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddDevice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:contentDescription="@string/app_name"
+        app:srcCompat="@drawable/ic_plus"
+        app:tint="@android:color/white"
+        app:backgroundTint="@color/colorPrimary"
+        app:useCompatPadding="true"
+        app:fabSize="normal"
+        app:maxImageSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

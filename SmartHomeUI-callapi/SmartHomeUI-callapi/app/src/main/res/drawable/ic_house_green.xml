@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- House shape with green fill -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M12,3 L2,12 H5 V21 H10 V15 H14 V21 H19 V12 H22 Z"/>
+    <!-- Door -->
+    <path
+        android:fillColor="#2E7D32"
+        android:pathData="M10,15 H14 V21 H10 Z"/>
+    <!-- Window -->
+    <path
+        android:fillColor="#81C784"
+        android:pathData="M7,13 H9 V15 H7 Z M15,13 H17 V15 H15 Z"/>
+</vector>

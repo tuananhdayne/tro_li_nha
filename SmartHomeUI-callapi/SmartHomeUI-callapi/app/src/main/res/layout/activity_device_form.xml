@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_green_pattern">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên thiết bị" />
+
+        <EditText
+            android:id="@+id/etToken"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Device token" />
+
+
+        <Spinner
+            android:id="@+id/spType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <Switch
+            android:id="@+id/swOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bật thiết bị" />
+
+
+        <!-- LIGHT -->
+        <LinearLayout
+            android:id="@+id/grpLight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Độ sáng" />
+
+            <SeekBar
+                android:id="@+id/sbBrightness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100" />
+        </LinearLayout>
+
+
+        <!-- RGB -->
+        <LinearLayout
+            android:id="@+id/grpRgb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Độ sáng" />
+
+            <SeekBar
+                android:id="@+id/sbBrightnessRgb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Màu (RGB)" />
+
+            <SeekBar
+                android:id="@+id/sbR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="255" />
+
+            <SeekBar
+                android:id="@+id/sbG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="255" />
+
+            <SeekBar
+                android:id="@+id/sbB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="255" />
+
+            <View
+                android:id="@+id/colorPreview"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+
+        <!-- FAN -->
+        <LinearLayout
+            android:id="@+id/grpFan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cấp quạt" />
+
+            <RadioGroup
+                android:id="@+id/rgFanLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1" />
+
+                <RadioButton
+                    android:id="@+id/rb2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2" />
+
+                <RadioButton
+                    android:id="@+id/rb3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <!--Save and Cancel-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Hủy"
+                android:backgroundTint="@android:color/darker_gray"
+                android:textColor="@android:color/white"/>
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lưu"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

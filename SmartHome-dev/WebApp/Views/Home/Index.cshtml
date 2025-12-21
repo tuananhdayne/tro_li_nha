@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Tổng quan";
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Tổng quan hệ thống</h2>
+        <p>Chào mừng đến với SmartHome Dashboard</p>
+    </div>
+    <div class="topbar-actions">
+        <a asp-controller="House" asp-action="Create" class="btn btn-primary">+ Thêm nhà</a>
+    </div>
+</div>
+
+<div class="content">
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon green">🏠</div>
+            <div class="stat-value">@ViewBag.TotalHouses</div>
+            <div class="stat-label">Tổng số nhà</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon blue">🚪</div>
+            <div class="stat-value">@ViewBag.TotalRooms</div>
+            <div class="stat-label">Tổng số phòng</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon orange">💡</div>
+            <div class="stat-value">@ViewBag.ActiveDevices</div>
+            <div class="stat-label">Thiết bị hoạt động</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon purple">🌡️</div>
+            <div class="stat-value">@ViewBag.AvgTemp°C</div>
+            <div class="stat-label">Nhiệt độ trung bình</div>
+        </div>
+    </div>
+    
+    <!-- Quick Access -->
+    <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Truy cập nhanh</h3>
+    <div class="cards-grid">
+        <a asp-controller="House" asp-action="Index" class="card" style="text-decoration: none; color: inherit;">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div>
+                        <div class="card-title">Quản lý nhà</div>
+                        <div class="card-subtitle">Xem và quản lý các ngôi nhà</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Thêm, sửa, xóa nhà và quản lý thành viên</p>
+            </div>
+        </a>
+        
+        <a asp-controller="Room" asp-action="Index" class="card" style="text-decoration: none; color: inherit;">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div>
+                        <div class="card-title">Quản lý phòng</div>
+                        <div class="card-subtitle">Xem tất cả phòng theo nhà</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Thêm phòng mới và quản lý thiết bị trong phòng</p>
+            </div>
+        </a>
+        
+        <a asp-controller="Device" asp-action="Index" class="card" style="text-decoration: none; color: inherit;">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div>
+                        <div class="card-title">Điều khiển thiết bị</div>
+                        <div class="card-subtitle">Bật/tắt và theo dõi thiết bị</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Điều khiển đèn, khóa cửa, cảm biến</p>
+            </div>
+        </a>
+    </div>
+</div>

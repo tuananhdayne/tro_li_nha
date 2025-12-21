@@ -1,0 +1,440 @@
+﻿@model IEnumerable<DAO.BaseModels.Device>
+@{
+    ViewData["Title"] = "Thiết bị";
+    var roomId = ViewBag.RoomId as int?;
+    var roomName = ViewBag.RoomName as string;
+    var rooms = ViewBag.Rooms as IEnumerable<DAO.BaseModels.Room>;
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Thiết bị</h2>
+        <p>@(roomName != null ? $"Phòng: {roomName}" : "Tất cả thiết bị của bạn")</p>
+    </div>
+    <div class="topbar-actions">
+        <div class="search-box" style="position: relative;">
+            <input type="text" id="deviceSearch" class="form-input" placeholder="Tìm tên thiết bị..." onkeyup="searchDevices(this.value)" style="padding-left: 2.5rem; width: 250px;">
+            <i class="fas fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+        </div>
+        <button onclick="openAddSingleModal()" class="btn btn-secondary">+ Thêm 1 thiết bị</button>
+        <button onclick="openAddModal()" class="btn btn-primary">+ Thêm ESP32 Kit</button>
+    </div>
+</div>
+
+<div class="content">
+    @if (!Model.Any())
+    {
+        <div class="card" id="emptyState" style="max-width: 500px; margin: 2rem auto; text-align: center;">
+            <div class="card-body">
+                <i class="fas fa-microchip" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                <h3 style="margin-bottom: 0.5rem;">Chưa có thiết bị</h3>
+                <p class="text-muted" style="margin-bottom: 1.5rem;">Thêm ESP32 Kit để bắt đầu điều khiển ngôi nhà của bạn</p>
+                <button onclick="openAddModal()" class="btn btn-primary">+ Thêm ESP32 Kit</button>
+            </div>
+        </div>
+    }
+    
+    <div class="cards-grid" id="deviceListContainer">
+        @await Html.PartialAsync("DeviceList", Model)
+    </div>
+
+    @if (Model.Count() >= 10)
+    {
+        <div class="text-center mt-2" id="loadMoreContainer">
+            <button onclick="loadMore()" class="btn btn-secondary" id="btnLoadMore">Xem thêm thiết bị</button>
+        </div>
+    }
+</div>
+
+<!-- Modal Add ESP32 Kit -->
+<div id="addModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width: 450px; width: 90%; margin: 0;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Thêm ESP32 Kit</div>
+                    <div class="card-subtitle">Tạo 4 thiết bị: Light, DoorLock, TempSensor, Motion</div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label class="form-label">Chọn phòng</label>
+                <select id="selectRoom" class="form-input">
+                    <option value="">-- Chọn phòng --</option>
+                    @if (rooms != null)
+                    {
+                        foreach (var room in rooms)
+                        {
+                            <!option value="@room.ID" @(room.ID == roomId ? "selected" : "")>@room.Name</!option>
+                        }
+                    }
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">MAC Address</label>
+                <input type="text" id="inputMac" class="form-input" placeholder="AA:BB:CC:DD:EE:FF" />
+                <small class="text-muted">Xem MAC trong Serial Monitor của ESP32</small>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Tên prefix (tùy chọn)</label>
+                <input type="text" id="inputPrefix" class="form-input" placeholder="VD: PhongKhach" value="ESP32" />
+            </div>
+            
+            <div id="resultMsg" style="display:none; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;"></div>
+        </div>
+        <div class="card-footer">
+            <button onclick="createEsp32Kit()" class="btn btn-primary" id="btnCreate">Tạo 4 thiết bị</button>
+            <button onclick="closeAddModal()" class="btn btn-secondary">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Add Single Device -->
+<div id="addSingleModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width: 450px; width: 90%; margin: 0;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Thêm 1 thiết bị</div>
+                    <div class="card-subtitle">Thêm thiết bị riêng lẻ với token từ ThingsBoard</div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label class="form-label">Chọn phòng</label>
+                <select id="selectRoomSingle" class="form-input">
+                    <option value="">-- Chọn phòng --</option>
+                    @if (rooms != null)
+                    {
+                        foreach (var room in rooms)
+                        {
+                            <!option value="@room.ID" @(room.ID == roomId ? "selected" : "")>@room.Name</!option>
+                        }
+                    }
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Tên thiết bị</label>
+                <input type="text" id="inputDeviceName" class="form-input" placeholder="VD: Đèn phòng khách" />
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Loại thiết bị</label>
+                <select id="selectDeviceType" class="form-input">
+                    <option value="Light">Light (Đèn)</option>
+                    <option value="DoorLock">DoorLock (Khóa cửa)</option>
+                    <option value="TemperatureHumiditySensor">TemperatureHumiditySensor (Nhiệt độ/Độ ẩm)</option>
+                    <option value="MotionSensor">MotionSensor (Cảm biến chuyển động)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">MAC Address</label>
+                <input type="text" id="inputMacSingle" class="form-input" placeholder="AA:BB:CC:DD:EE:FF" />
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Device Token (từ ThingsBoard)</label>
+                <input type="text" id="inputToken" class="form-input" placeholder="Nhập Access Token từ ThingsBoard" />
+                <small class="text-muted">Tạo device trên ThingsBoard trước, copy Access Token</small>
+            </div>
+            
+            <div id="resultMsgSingle" style="display:none; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;"></div>
+        </div>
+        <div class="card-footer">
+            <button onclick="createSingleDevice()" class="btn btn-primary" id="btnCreateSingle">Tạo thiết bị</button>
+            <button onclick="closeAddSingleModal()" class="btn btn-secondary">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Device -->
+<div id="editModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width: 400px; width: 90%; margin: 0;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Sửa thiết bị</div>
+                    <div class="card-subtitle" id="editLabel">Đang chỉnh sửa...</div>
+                </div>
+            </div>
+        </div>
+        <form asp-action="Edit" method="post">
+            <div class="card-body">
+                <input type="hidden" id="editDeviceId" name="ID" />
+                <div class="form-group">
+                    <label class="form-label">Tên thiết bị mới</label>
+                    <input type="text" id="editDeviceName" name="Name" class="form-input" required />
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                <button type="button" onclick="closeEditModal()" class="btn btn-secondary">Hủy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+// Consolidated room loading functions - now mostly using Razor but keeping as fallback if needed
+function openAddModal() {
+    document.getElementById('addModal').style.display = 'flex';
+    document.getElementById('inputMac').value = '';
+    document.getElementById('resultMsg').style.display = 'none';
+}
+
+function closeAddModal() {
+    document.getElementById('addModal').style.display = 'none';
+}
+
+let currentSkip = 10;
+const currentTake = 10;
+let isSearchMode = false;
+
+async function searchDevices(keyword) {
+    const container = document.getElementById('deviceListContainer');
+    const loadMoreBtn = document.getElementById('loadMoreContainer');
+    const emptyState = document.getElementById('emptyState');
+    
+    isSearchMode = keyword.trim().length > 0;
+    
+    // Debounce search
+    clearTimeout(window.searchTimeout);
+    window.searchTimeout = setTimeout(async () => {
+        try {
+            const url = `/Device/Search?keyword=${encodeURIComponent(keyword)}&roomId=${'@roomId' || ''}`;
+            const res = await fetch(url);
+            const html = await res.text();
+            container.innerHTML = html;
+            
+            if (loadMoreBtn) loadMoreBtn.style.display = isSearchMode ? 'none' : 'block';
+            if (emptyState) emptyState.style.display = (html.trim() === '' && !isSearchMode) ? 'block' : 'none';
+            
+            currentSkip = 10; // reset skip
+        } catch (e) {
+            console.error("Search failed:", e);
+        }
+    }, 300);
+}
+
+async function loadMore() {
+    const btn = document.getElementById('btnLoadMore');
+    const container = document.getElementById('deviceListContainer');
+    btn.disabled = true;
+    btn.textContent = 'Đang tải...';
+    
+    try {
+        const url = `/Device/LoadMoreDevices?skip=${currentSkip}&take=${currentTake}&roomId=${'@roomId' || ''}`;
+        const res = await fetch(url);
+        const html = await res.text();
+        
+        if (html.trim() !== '') {
+            container.insertAdjacentHTML('beforeend', html);
+            currentSkip += currentTake;
+        } else {
+            document.getElementById('loadMoreContainer').innerHTML = '<p class="text-muted">Đã hết danh sách thiết bị</p>';
+        }
+    } catch (e) {
+        console.error("Load more failed:", e);
+    }
+    
+    btn.disabled = false;
+    btn.textContent = 'Xem thêm thiết bị';
+}
+
+async function createEsp32Kit() {
+    const roomId = document.getElementById('selectRoom').value;
+    const mac = document.getElementById('inputMac').value.replace(/[:-]/g, '').toUpperCase();
+    const prefix = document.getElementById('inputPrefix').value || 'ESP32';
+    const resultDiv = document.getElementById('resultMsg');
+    const btn = document.getElementById('btnCreate');
+    
+    if (!roomId) {
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = 'rgba(220,38,38,0.2)';
+        resultDiv.innerHTML = 'Vui lòng chọn phòng!';
+        return;
+    }
+    
+    if (!mac || mac.length < 12) {
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = 'rgba(220,38,38,0.2)';
+        resultDiv.innerHTML = 'MAC Address không hợp lệ!';
+        return;
+    }
+    
+    btn.disabled = true;
+    btn.textContent = 'Đang tạo...';
+    
+    try {
+        const res = await fetch('/api/device/create-esp32-kit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                macAddress: mac,
+                roomId: parseInt(roomId),
+                namePrefix: prefix
+            })
+        });
+        
+        let data;
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            data = await res.json();
+        } else {
+            const text = await res.text();
+            console.error("Server returned non-JSON response:", text);
+            throw new Error(`Server returned error ${res.status}: ${text.substring(0, 100)}...`);
+        }
+        
+        if (res.ok && data.success) {
+            resultDiv.style.display = 'block';
+            resultDiv.style.background = 'rgba(76,175,80,0.2)';
+            resultDiv.innerHTML = `✅ Đã tạo ${data.devices?.length || 4} thiết bị thành công!<br>Reload sau 2 giây...`;
+            
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            resultDiv.style.display = 'block';
+            resultDiv.style.background = 'rgba(220,38,38,0.2)';
+            resultDiv.innerHTML = '❌ ' + (data.message || 'Lỗi tạo thiết bị');
+        }
+    } catch (e) {
+        console.error("Error creating ESP32 kit:", e);
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = 'rgba(220,38,38,0.2)';
+        resultDiv.innerHTML = '❌ Lỗi kết nối: ' + e.message;
+    }
+    
+    btn.disabled = false;
+    btn.textContent = 'Tạo 4 thiết bị';
+}
+
+function toggleDevice(deviceId, isOn) {
+    fetch('/api/device/' + deviceId + '/control', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command: isOn ? 'on' : 'off' })
+    }).then(async res => {
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            alert('Lỗi điều khiển thiết bị: ' + (errorData.message || res.statusText));
+            // Revert switch if possible
+            location.reload(); 
+        }
+    });
+}
+
+// Single device modal functions
+function openAddSingleModal() {
+    document.getElementById('addSingleModal').style.display = 'flex';
+    document.getElementById('inputDeviceName').value = '';
+    document.getElementById('inputMacSingle').value = '';
+    document.getElementById('inputToken').value = '';
+    document.getElementById('resultMsgSingle').style.display = 'none';
+}
+
+function closeAddSingleModal() {
+    document.getElementById('addSingleModal').style.display = 'none';
+}
+
+async function createSingleDevice() {
+    const roomId = document.getElementById('selectRoomSingle').value;
+    const name = document.getElementById('inputDeviceName').value;
+    const type = document.getElementById('selectDeviceType').value;
+    const mac = document.getElementById('inputMacSingle').value.replace(/[:-]/g, '').toUpperCase();
+    const token = document.getElementById('inputToken').value;
+    const resultDiv = document.getElementById('resultMsgSingle');
+    const btn = document.getElementById('btnCreateSingle');
+    
+    if (!roomId) {
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = 'rgba(220,38,38,0.2)';
+        resultDiv.innerHTML = 'Vui lòng chọn phòng!';
+        return;
+    }
+    
+    if (!name) {
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = 'rgba(220,38,38,0.2)';
+        resultDiv.innerHTML = 'Vui lòng nhập tên thiết bị!';
+        return;
+    }
+    
+    if (!token) {
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = 'rgba(220,38,38,0.2)';
+        resultDiv.innerHTML = 'Vui lòng nhập Device Token từ ThingsBoard!';
+        return;
+    }
+    
+    btn.disabled = true;
+    btn.textContent = 'Đang tạo...';
+    
+    try {
+        const res = await fetch('/api/device', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: name,
+                type: type,
+                macAddress: mac,
+                deviceToken: token,
+                roomID: parseInt(roomId),
+                status: 'off'
+            })
+        });
+        
+        const data = await res.json();
+        
+        if (res.ok) {
+            resultDiv.style.display = 'block';
+            resultDiv.style.background = 'rgba(76,175,80,0.2)';
+            resultDiv.innerHTML = '✅ Đã tạo thiết bị thành công!<br>Reload sau 2 giây...';
+            
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            resultDiv.style.display = 'block';
+            resultDiv.style.background = 'rgba(220,38,38,0.2)';
+            resultDiv.innerHTML = '❌ ' + (data.message || 'Lỗi tạo thiết bị');
+        }
+    } catch (e) {
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = 'rgba(220,38,38,0.2)';
+        resultDiv.innerHTML = '❌ Lỗi kết nối: ' + e.message;
+    }
+    
+    btn.disabled = false;
+    btn.textContent = 'Tạo thiết bị';
+}
+function openEditModal(id, name) {
+    document.getElementById('editModal').style.display = 'flex';
+    document.getElementById('editDeviceId').value = id;
+    document.getElementById('editDeviceName').value = name;
+    document.getElementById('editLabel').textContent = 'Chỉnh sửa: ' + name;
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').style.display = 'none';
+}
+
+function deleteDevice(id, name) {
+    if (confirm(`Bạn có chắc chắn muốn xóa thiết bị "${name}"? Thao tác này sẽ xóa cả trên ThingsBoard.`)) {
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = '/Device/Delete/' + id;
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+}

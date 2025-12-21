@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="16dp" android:orientation="vertical"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <!-- Preview -->
+    <View
+        android:id="@+id/preview"
+        android:layout_width="match_parent" android:layout_height="64dp"
+        android:background="#FF684CC1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="220dp"
+        android:orientation="horizontal" android:layout_marginTop="12dp">
+
+        <com.example.smarthomeui.smarthome.components.SaturationValueView
+            android:id="@+id/viewSV"
+            android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <com.example.smarthomeui.smarthome.components.HueBarView
+            android:id="@+id/viewHue"
+            android:layout_width="28dp" android:layout_height="match_parent"
+            android:layout_marginStart="12dp" />
+    </LinearLayout>
+
+    <!-- HEX (tuỳ chọn) -->
+    <EditText
+        android:id="@+id/etHex"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:hint="#RRGGBB"
+        android:inputType="textNoSuggestions"
+        android:text="#684cc1" />
+
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="end" android:layout_marginTop="12dp">
+        <Button android:id="@+id/btnCancel" android:text="Huỷ"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <Button android:id="@+id/btnOk" android:text="OK"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"/>
+    </LinearLayout>
+</LinearLayout>

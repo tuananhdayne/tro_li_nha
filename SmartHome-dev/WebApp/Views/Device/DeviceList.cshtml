@@ -1,0 +1,6 @@
+@model IEnumerable<DAO.BaseModels.Device>
+
+@foreach (var device in Model)
+{
+    @await Html.PartialAsync("_DeviceCard", device)
+}

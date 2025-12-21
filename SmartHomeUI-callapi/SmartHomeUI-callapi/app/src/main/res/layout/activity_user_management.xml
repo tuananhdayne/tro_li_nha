@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_green_pattern"
+    tools:context=".smarthome.ui.activity.UserManagementActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Header -->
+        <LinearLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="20dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_arrow_left"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="5dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Quản lý người dùng"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <ImageView
+                android:id="@+id/btnAddUser"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_add"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="5dp" />
+
+        </LinearLayout>
+
+        <!-- Search Bar -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/searchCard"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/headerLayout"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_search"
+                    android:layout_marginRight="10dp" />
+
+                <EditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Tìm kiếm người dùng..."
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:textColorHint="@color/hintColor" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- User List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewUsers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/searchCard"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            tools:listitem="@layout/item_user" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

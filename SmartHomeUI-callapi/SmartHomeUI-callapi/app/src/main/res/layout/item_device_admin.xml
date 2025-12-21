@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <!-- Device Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/imgDeviceIcon"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_device"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/primaryColor"
+                android:padding="10dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp">
+
+                <TextView
+                    android:id="@+id/tvDeviceName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đèn LED thông minh"
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDeviceRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phòng khách"
+                    android:textColor="@color/hintColor"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvDeviceId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID: DEV001"
+                    android:textColor="@color/hintColor"
+                    android:textSize="10sp"
+                    android:layout_marginTop="2dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvDeviceStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Online"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:background="@drawable/rounded_background"
+                    android:backgroundTint="@color/green"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:layout_marginBottom="5dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/btnEditDevice"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_edit"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="@color/green"
+                        android:padding="6dp"
+                        android:layout_marginRight="5dp" />
+
+                    <ImageView
+                        android:id="@+id/btnDeleteDevice"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_delete"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="@color/red"
+                        android:padding="6dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Device Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvDeviceType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đèn LED"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loại thiết bị"
+                    android:textColor="@color/hintColor"
+                    android:textSize="9sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="25dp"
+                android:background="@color/hintColor"
+                android:alpha="0.3" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvPowerConsumption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12W"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Công suất"
+                    android:textColor="@color/hintColor"
+                    android:textSize="9sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="25dp"
+                android:background="@color/hintColor"
+                android:alpha="0.3" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvLastActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5 phút"
+                    android:textColor="@color/green"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hoạt động cuối"
+                    android:textColor="@color/hintColor"
+                    android:textSize="9sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Device Controls -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Điều khiển:"
+                android:textColor="@color/textColor"
+                android:textSize="12sp" />
+
+            <Switch
+                android:id="@+id/switchDevicePower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:checked="true" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvDeviceValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="80%"
+                android:textColor="@color/primaryColor"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

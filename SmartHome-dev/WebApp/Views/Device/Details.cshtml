@@ -1,0 +1,114 @@
+@model DAO.BaseModels.Device
+@{
+    ViewData["Title"] = Model.Name;
+    var icon = Model.Type switch
+    {
+        "Light" => "💡",
+        "DoorLock" => "🔒",
+        "TemperatureHumiditySensor" => "🌡️",
+        "MotionSensor" => "👁️",
+        _ => "📱"
+    };
+}
+
+<div class="page-header">
+    <h1 class="page-title">@icon @Model.Name</h1>
+    <p class="page-subtitle">@Model.Type - @Model.MacAddress</p>
+</div>
+
+<a asp-action="Index" asp-route-roomId="@Model.RoomID" class="btn btn-outline mb-2">← Quay lại</a>
+
+<div class="grid">
+    <!-- Thông tin thiết bị -->
+    <div class="card">
+        <h3 class="card-title">Thông tin</h3>
+        <table>
+            <tr><td>Tên</td><td>@Model.Name</td></tr>
+            <tr><td>Loại</td><td>@Model.Type</td></tr>
+            <tr><td>MAC</td><td>@Model.MacAddress</td></tr>
+            <tr><td>Trạng thái</td><td>@(Model.Status ?? "N/A")</td></tr>
+            <tr><td>Phòng ID</td><td>@Model.RoomID</td></tr>
+        </table>
+    </div>
+    
+    <!-- Điều khiển -->
+    @if (Model.Type == "Light" || Model.Type == "DoorLock")
+    {
+        <div class="card">
+            <h3 class="card-title">Điều khiển</h3>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="btn btn-primary" onclick="controlDevice('on')">Bật</button>
+                <button class="btn btn-danger" onclick="controlDevice('off')">Tắt</button>
+            </div>
+        </div>
+    }
+    
+    <!-- Dữ liệu cảm biến -->
+    @if (Model.Type == "TemperatureHumiditySensor")
+    {
+        <div class="card">
+            <h3 class="card-title">Dữ liệu cảm biến</h3>
+            <div style="display: flex; gap: 2rem; margin-top: 1rem;">
+                <div class="text-center">
+                    <div class="sensor-value" id="tempValue">--</div>
+                    <div class="sensor-label">°C Nhiệt độ</div>
+                </div>
+                <div class="text-center">
+                    <div class="sensor-value" id="humValue">--</div>
+                    <div class="sensor-label">% Độ ẩm</div>
+                </div>
+            </div>
+        </div>
+    }
+    
+    @if (Model.Type == "MotionSensor")
+    {
+        <div class="card">
+            <h3 class="card-title">Trạng thái phát hiện</h3>
+            <div class="text-center" style="margin-top: 1rem;">
+                <div class="sensor-value" id="motionValue">--</div>
+                <div class="sensor-label">Phát hiện chuyển động</div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+<script>
+var deviceId = @Model.ID;
+var deviceType = '@Model.Type';
+
+function controlDevice(cmd) {
+    fetch(`/api/device/control/${deviceId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command: cmd })
+    }).then(res => {
+        if (res.ok) {
+            alert('Đã gửi lệnh: ' + cmd);
+        } else {
+            alert('Lỗi điều khiển');
+        }
+    });
+}
+
+function loadTelemetry() {
+    fetch(`/api/device/${deviceId}/telemetry`)
+        .then(res => res.json())
+        .then(data => {
+            if (deviceType === 'TemperatureHumiditySensor') {
+                document.getElementById('tempValue').textContent = data.temperature?.toFixed(1) || '--';
+                document.getElementById('humValue').textContent = data.humidity?.toFixed(1) || '--';
+            } else if (deviceType === 'MotionSensor') {
+                document.getElementById('motionValue').textContent = data.motion ? 'Có' : 'Không';
+            }
+        })
+        .catch(() => {});
+}
+
+if (deviceType === 'TemperatureHumiditySensor' || deviceType === 'MotionSensor') {
+    loadTelemetry();
+    setInterval(loadTelemetry, 5000);
+}
+</script>
+}

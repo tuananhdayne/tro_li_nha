@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Room shape with furniture - green theme -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M3,3 H21 V21 H3 Z"/>
+    <!-- Door opening -->
+    <path
+        android:fillColor="#81C784"
+        android:pathData="M4,4 H20 V20 H4 Z"/>
+    <!-- Bed/Sofa representation -->
+    <path
+        android:fillColor="#2E7D32"
+        android:pathData="M6,14 H18 V18 H6 Z"/>
+    <!-- Pillow/Cushion -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M7,14 H10 V16 H7 Z M14,14 H17 V16 H14 Z"/>
+</vector>

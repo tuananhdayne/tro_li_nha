@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- SmartHome Green Theme -->
+    <style name="Base.Theme.SmarthomeUI" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- SmartHome Green Theme Colors -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+    </style>
+    <style name="ThemeOverlay.Material3.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <!-- Dialog styling -->
+    </style>
+
+    <style name="Theme.SmarthomeUI" parent="Base.Theme.SmarthomeUI" />
+</resources>

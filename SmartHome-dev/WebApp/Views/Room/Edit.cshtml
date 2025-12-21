@@ -1,0 +1,31 @@
+﻿@model DAO.BaseModels.Room
+@{
+    ViewData["Title"] = "Sửa phòng";
+}
+
+<div class="page-header">
+    <h1 class="page-title">Sửa phòng</h1>
+</div>
+
+<div class="card" style="max-width: 500px;">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="ID" />
+        <input type="hidden" asp-for="HouseID" />
+        
+        <div class="form-group">
+            <label class="form-label">Tên phòng *</label>
+            <input type="text" asp-for="Name" class="form-input" required />
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Mô tả</label>
+            <input type="text" asp-for="Detail" class="form-input" />
+        </div>
+        
+        <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            <a asp-action="Index" asp-route-houseId="@Model.HouseID" class="btn btn-outline">Hủy</a>
+        </div>
+    </form>
+</div>

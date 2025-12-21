@@ -1,0 +1,348 @@
+﻿@model Dictionary<DAO.BaseModels.House, IEnumerable<DAO.BaseModels.Room>>
+@foreach (var houseWithRooms in Model)
+{
+    if (houseWithRooms.Value.Any())
+    {
+        <h2>@houseWithRooms.Key.Name</h2>
+        <ul class="box-info" id="boxInfoList">
+            @foreach (var room in houseWithRooms.Value)
+            {
+                <li>
+                    <span class="text">
+                        <h3>
+                            <a href='@Url.Action("Index", "Device", new { roomId = room.ID })'>
+                                @room.Name
+                            </a>
+                        </h3>
+                        <p>@room.Detail</p>
+                        
+                        <!-- Sensors Overview with Alerts -->
+                        <div class="sensors-overview" id="sensors-@room.ID" style="margin-top: 10px; display: flex; gap: 15px; font-size: 14px; color: #666;">
+                            <span class="sensor-temp">
+                                <i class='bx bx-sun'></i> 
+                                <span class="temp-value">--</span>°C
+                                <i class='bx bxs-error temp-alert' style="color: #E53E3E; display: none;" title="⚠️ Nhiệt độ cao!"></i>
+                            </span>
+                            <span class="sensor-humidity">
+                                <i class='bx bx-droplet'></i> 
+                                <span class="humidity-value">--</span>%
+                                <i class='bx bxs-error humidity-alert' style="color: #F59E0B; display: none;" title="⚠️ Độ ẩm cao!"></i>
+                            </span>
+                            <span class="sensor-motion">
+                                <i class='bx bx-body'></i> 
+                                <span class="motion-value">--</span>
+                                <i class='bx bxs-bell-ring motion-alert' style="color: #4CAF50; display: none; animation: ring 0.5s ease infinite;" title="🔔 Có người!"></i>
+                            </span>
+                        </div>
+                        
+                        <!-- Buttons -->
+                        <div class="button-group" style="margin-top: 10px;">
+                            <button class="btn-esp32-kit" data-room-id="@room.ID" data-room-name="@room.Name"
+                                    style="background: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;">
+                                <i class="bx bx-chip"></i> Add ESP32 Kit
+                            </button>
+                            <button class="btn-view-history" data-room-id="@room.ID" data-room-name="@room.Name"
+                                    style="background: #2196F3; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;">
+                                <i class="bx bx-chart"></i> History
+                            </button>
+                            <a class="edit" asp-action="Edit" asp-route-roomId="@room.ID">
+                                <i class="bx bxs-edit"></i>
+                            </a>
+                            <a class="delete" asp-action="Delete" asp-route-roomId="@room.ID">
+                                <i class="bx bxs-trash"></i>
+                            </a>
+                        </div>
+                    </span>
+                </li>
+            }
+        </ul>
+    }
+}
+
+<!-- ESP32 Kit Modal -->
+<div id="esp32KitModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 25px; border-radius: 10px; width: 400px; max-width: 90%;">
+        <h3 style="color: #2E7D32; margin-bottom: 20px;">🛠️ Add ESP32 Kit</h3>
+        <p style="color: #666; margin-bottom: 15px;">This will create 4 devices: Light, DoorLock, Temperature/Humidity Sensor, Motion Sensor</p>
+        
+        <input type="hidden" id="esp32RoomId" />
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Room:</label>
+            <input type="text" id="esp32RoomName" readonly style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #f5f5f5;" />
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">MAC Address:</label>
+            <input type="text" id="esp32Mac" placeholder="e.g. 9451DC339E50" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+            <small style="color: #999;">Find this on your ESP32 serial output</small>
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Name Prefix (optional):</label>
+            <input type="text" id="esp32Prefix" placeholder="e.g. LivingRoom" value="ESP32" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+        </div>
+        
+        <div style="display: flex; gap: 10px;">
+            <button id="createEsp32Kit" style="flex: 1; background: #4CAF50; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                Create 4 Devices
+            </button>
+            <button id="closeEsp32Modal" style="flex: 1; background: #ddd; color: #333; border: none; padding: 12px; border-radius: 5px; cursor: pointer;">
+                Cancel
+            </button>
+        </div>
+        
+        <div id="esp32Result" style="margin-top: 15px; display: none;"></div>
+    </div>
+</div>
+
+<!-- Sensor History Chart Modal -->
+<div id="historyChartModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 25px; border-radius: 10px; width: 700px; max-width: 95%;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="color: #2E7D32; margin: 0;">📊 <span id="chartRoomName">Room</span> - Sensor History (24h)</h3>
+            <button id="closeChartModal" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+        </div>
+        <div style="height: 350px;">
+            <canvas id="sensorHistoryChart"></canvas>
+        </div>
+        <p id="chartNoData" style="text-align: center; color: #999; display: none;">No sensor data available for this room</p>
+    </div>
+</div>
+
+<script>
+// Fetch sensor data for all rooms
+async function updateAllRoomSensors() {
+    const roomElements = document.querySelectorAll('.sensors-overview');
+    
+    for (const roomEl of roomElements) {
+        const roomId = roomEl.id.replace('sensors-', '');
+        try {
+            const response = await fetch(`/api/room/${roomId}/sensors`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                
+                // Update temperature
+                const tempEl = roomEl.querySelector('.temp-value');
+                const tempAlert = roomEl.querySelector('.temp-alert');
+                if (data.temperature !== null && data.temperature !== undefined) {
+                    tempEl.textContent = data.temperature.toFixed(1);
+                    tempEl.parentElement.style.color = '#4CAF50';
+                    // Alert if temp > 35°C
+                    if (tempAlert) tempAlert.style.display = data.temperature > 35 ? 'inline' : 'none';
+                } else {
+                    tempEl.textContent = '--';
+                    tempEl.parentElement.style.color = '#999';
+                    if (tempAlert) tempAlert.style.display = 'none';
+                }
+                
+                // Update humidity
+                const humEl = roomEl.querySelector('.humidity-value');
+                const humAlert = roomEl.querySelector('.humidity-alert');
+                if (data.humidity !== null && data.humidity !== undefined) {
+                    humEl.textContent = data.humidity.toFixed(0);
+                    humEl.parentElement.style.color = '#2196F3';
+                    // Alert if humidity > 80%
+                    if (humAlert) humAlert.style.display = data.humidity > 80 ? 'inline' : 'none';
+                } else {
+                    humEl.textContent = '--';
+                    humEl.parentElement.style.color = '#999';
+                    if (humAlert) humAlert.style.display = 'none';
+                }
+                
+                // Update motion
+                const motionEl = roomEl.querySelector('.motion-value');
+                const motionAlert = roomEl.querySelector('.motion-alert');
+                if (data.motion !== null && data.motion !== undefined) {
+                    motionEl.textContent = data.motion ? 'Có người' : 'Trống';
+                    motionEl.parentElement.style.color = data.motion ? '#FF9800' : '#999';
+                    // Alert if motion detected
+                    if (motionAlert) motionAlert.style.display = data.motion ? 'inline' : 'none';
+                } else {
+                    motionEl.textContent = '--';
+                    motionEl.parentElement.style.color = '#999';
+                    if (motionAlert) motionAlert.style.display = 'none';
+                }
+            }
+        } catch (error) {
+            console.error(`Error fetching sensors for room ${roomId}:`, error);
+        }
+    }
+}
+
+// Update immediately on load
+updateAllRoomSensors();
+
+// Auto-refresh every 10 seconds
+setInterval(updateAllRoomSensors, 10000);
+
+// ESP32 Kit Modal Handlers
+document.querySelectorAll('.btn-esp32-kit').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const roomId = this.getAttribute('data-room-id');
+        const roomName = this.getAttribute('data-room-name');
+        document.getElementById('esp32RoomId').value = roomId;
+        document.getElementById('esp32RoomName').value = roomName;
+        document.getElementById('esp32Mac').value = '';
+        document.getElementById('esp32Result').style.display = 'none';
+        document.getElementById('esp32KitModal').style.display = 'flex';
+    });
+});
+
+document.getElementById('closeEsp32Modal').addEventListener('click', function() {
+    document.getElementById('esp32KitModal').style.display = 'none';
+});
+
+document.getElementById('createEsp32Kit').addEventListener('click', async function() {
+    const roomId = document.getElementById('esp32RoomId').value;
+    const macAddress = document.getElementById('esp32Mac').value.replace(/[:-]/g, '').toUpperCase();
+    const namePrefix = document.getElementById('esp32Prefix').value || 'ESP32';
+    const resultDiv = document.getElementById('esp32Result');
+    
+    if (!macAddress || macAddress.length < 12) {
+        resultDiv.innerHTML = '<p style="color: #E53E3E;">⚠️ Please enter a valid MAC address</p>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+    
+    this.disabled = true;
+    this.textContent = 'Creating...';
+    
+    try {
+        const response = await fetch('/api/device/create-esp32-kit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                macAddress: macAddress,
+                roomId: parseInt(roomId),
+                namePrefix: namePrefix
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            resultDiv.innerHTML = `<p style="color: #4CAF50;">✅ ${data.message}</p>
+                <ul style="font-size: 12px; color: #666; margin-top: 10px;">
+                    ${data.devices.map(d => `<li>${d.type}: ${d.name}</li>`).join('')}
+                </ul>`;
+            resultDiv.style.display = 'block';
+            
+            // Reload page after 2 seconds
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            resultDiv.innerHTML = `<p style="color: #E53E3E;">❌ ${data.message || 'Error creating devices'}</p>`;
+            resultDiv.style.display = 'block';
+        }
+    } catch (error) {
+        resultDiv.innerHTML = `<p style="color: #E53E3E;">❌ Network error: ${error.message}</p>`;
+        resultDiv.style.display = 'block';
+    }
+    
+    this.disabled = false;
+    this.textContent = 'Create 4 Devices';
+});
+
+// History Chart Modal Handlers
+let sensorChart = null;
+
+document.querySelectorAll('.btn-view-history').forEach(btn => {
+    btn.addEventListener('click', async function() {
+        const roomId = this.getAttribute('data-room-id');
+        const roomName = this.getAttribute('data-room-name');
+        document.getElementById('chartRoomName').textContent = roomName;
+        document.getElementById('historyChartModal').style.display = 'flex';
+        document.getElementById('chartNoData').style.display = 'none';
+        
+        // Fetch history data
+        try {
+            const response = await fetch(`/api/room/${roomId}/sensors/history?hours=24`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                
+                if (result.data && result.data.length > 0) {
+                    const labels = result.data.map(d => d.timestamp);
+                    const tempData = result.data.map(d => d.temperature);
+                    const humData = result.data.map(d => d.humidity);
+                    
+                    // Destroy existing chart
+                    if (sensorChart) {
+                        sensorChart.destroy();
+                    }
+                    
+                    // Create new chart
+                    const ctx = document.getElementById('sensorHistoryChart').getContext('2d');
+                    sensorChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Temperature (°C)',
+                                    data: tempData,
+                                    borderColor: '#4CAF50',
+                                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                                    tension: 0.3,
+                                    fill: true
+                                },
+                                {
+                                    label: 'Humidity (%)',
+                                    data: humData,
+                                    borderColor: '#2196F3',
+                                    backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                                    tension: 0.3,
+                                    fill: true
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    display: true,
+                                    title: { display: true, text: 'Time' }
+                                },
+                                y: {
+                                    display: true,
+                                    title: { display: true, text: 'Value' }
+                                }
+                            },
+                            plugins: {
+                                legend: { position: 'top' }
+                            }
+                        }
+                    });
+                } else {
+                    document.getElementById('chartNoData').style.display = 'block';
+                    if (sensorChart) {
+                        sensorChart.destroy();
+                        sensorChart = null;
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching sensor history:', error);
+            document.getElementById('chartNoData').style.display = 'block';
+        }
+    });
+});
+
+document.getElementById('closeChartModal').addEventListener('click', function() {
+    document.getElementById('historyChartModal').style.display = 'none';
+});
+</script>

@@ -1,0 +1,55 @@
+﻿@using Services.Services
+@inject IUserService UserService
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+<section id="sidebar">
+    <a href="~/" class="brand">
+        <i class='bx bx-shape-polygon'></i>
+        <span class="text">SmartHome</span>
+    </a>
+    <ul class="side-menu top">
+        <li class="@(currentController == "House" ? "active" : "")">
+            <a href="@Url.Action("Index", "House")" class="ajax-link">
+                <i class='bx bxs-home-heart'></i>
+                <span class="text">House</span>
+            </a>
+        </li>
+
+        <li class="@(currentController == "Room" ? "active" : "")">
+
+            <a href="@Url.Action("Index", "Room")" class="ajax-link">
+                <i class='bx bxs-building'></i>
+                <span class="text">Room</span>
+            </a>
+        </li>
+        <li class="@(currentController == "Device" ? "active" : "")">
+            <a href="@Url.Action("Index", "Device")" class="ajax-link">
+                <i class='bx bxs-devices'></i>
+                <span class="text">Device</span>
+            </a>
+        </li>
+        <li class="@(currentController == "Account" ? "active" : "")">
+            <a href="@Url.Action("Settings", "Account")" class="ajax-link">
+                <i class='bx bxs-cog'></i>
+                <span class="text">Settings</span>
+            </a>
+        </li>
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="@(currentController == "Admin" ? "active" : "")">
+                <a href="@Url.Action("Index", "Admin")" class="ajax-link">
+                    <i class='bx bxs-user-account'></i>
+                    <span class="text">Admin Panel</span>
+                </a>
+            </li>
+        }
+    </ul>
+    <footer style="position: absolute;bottom: 0;width: 100%">
+        <p style="font-weight: bold;color: white;">SmartHome v1.0.0</p>
+    </footer>
+</section>
+<script>
+    
+</script>

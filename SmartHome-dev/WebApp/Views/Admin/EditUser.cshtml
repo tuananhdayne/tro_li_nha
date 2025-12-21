@@ -1,0 +1,59 @@
+@model DAO.BaseModels.User
+@{
+    ViewData["Title"] = "Sửa người dùng";
+    var roles = ViewBag.Roles as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>;
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Sửa người dùng</h2>
+        <p>@Model.Email</p>
+    </div>
+    <div class="topbar-actions">
+        <a asp-action="ManageUsers" class="btn btn-secondary">← Quay lại</a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="card" style="max-width: 500px;">
+        <div class="card-body">
+            <form asp-action="UpdateUserAndAddRole" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="userId" value="@Model.Id" />
+                
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="newEmail" class="form-input" value="@Model.Email" required />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Tên hiển thị</label>
+                    <input type="text" name="newDisplayName" class="form-input" value="@Model.DisplayName" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Số điện thoại</label>
+                    <input type="text" name="newPhoneNumber" class="form-input" value="@Model.PhoneNumber" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Vai trò</label>
+                    <select name="roleName" class="form-input">
+                        @if (roles != null)
+                        {
+                            @foreach (var role in roles)
+                            {
+                                <option value="@role.Value">@role.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+                
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    <a asp-action="ManageUsers" class="btn btn-secondary">Hủy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

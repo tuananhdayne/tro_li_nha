@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using DAO.BaseModels
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SmartHome</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:white;">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1>SmartHome</h1>
+                    <span>Dashboard</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Menu chính</div>
+                    <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" 
+                       asp-controller="Home" asp-action="Index">
+                        <span>Tổng quan</span>
+                    </a>
+                    <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "House" ? "active" : "")" 
+                       asp-controller="House" asp-action="Index">
+                        <span>Nhà</span>
+                    </a>
+                    <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Room" ? "active" : "")" 
+                       asp-controller="Room" asp-action="Index">
+                        <span>Phòng</span>
+                    </a>
+                    <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Device" ? "active" : "")" 
+                       asp-controller="Device" asp-action="Index">
+                        <span>Thiết bị</span>
+                    </a>
+                </div>
+                
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="nav-section">
+                        <div class="nav-section-title">Quản trị</div>
+                        <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" ? "active" : "")" 
+                           asp-controller="Admin" asp-action="Index">
+                            <span>Admin</span>
+                        </a>
+                    </div>
+                }
+            </nav>
+            
+            <div class="sidebar-footer">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <div class="user-info">
+                        <div class="user-avatar">@(UserManager.GetUserName(User)?.Substring(0, 1).ToUpper() ?? "U")</div>
+                        <div>
+                            <div class="user-name">@UserManager.GetUserName(User)</div>
+                            <a asp-controller="Account" asp-action="Logout" class="btn btn-sm btn-secondary" style="margin-top:4px;">Đăng xuất</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <a class="btn btn-primary" style="width:100%;" asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                }
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

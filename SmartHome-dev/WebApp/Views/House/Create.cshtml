@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Thêm nhà mới";
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Thêm nhà mới</h2>
+        <p>Tạo nhà để quản lý các phòng và thiết bị</p>
+    </div>
+    <div class="topbar-actions">
+        <a asp-action="Index" class="btn btn-secondary">← Quay lại</a>
+    </div>
+</div>
+
+<div class="content" style="display: flex; justify-content: center; padding-top: 2rem;">
+    <div class="card" style="width: 100%; max-width: 500px;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Thông tin nhà</div>
+                    <div class="card-subtitle">Điền thông tin để tạo nhà mới</div>
+                </div>
+            </div>
+        </div>
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="form-label">Tên nhà <span style="color: var(--primary);">*</span></label>
+                    <input type="text" name="name" class="form-input" placeholder="VD: Nhà chính, Căn hộ 501..." required autofocus />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Địa chỉ</label>
+                    <input type="text" name="location" class="form-input" placeholder="VD: 123 Nguyễn Văn A, Quận 1, TP.HCM" />
+                    <small class="text-muted">Địa chỉ giúp phân biệt các nhà của bạn</small>
+                </div>
+            </div>
+            <div class="card-footer" style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Tạo nhà</button>
+                <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+@model IEnumerable<DAO.BaseModels.User>
+@{
+    ViewData["Title"] = "Quản lý người dùng";
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Quản lý người dùng</h2>
+        <p>Danh sách tất cả người dùng trong hệ thống</p>
+    </div>
+    <div class="topbar-actions">
+        <a asp-action="Index" class="btn btn-secondary">← Quay lại</a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Tên hiển thị</th>
+                    <th>Số điện thoại</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.Email</td>
+                        <td>@(user.DisplayName ?? "N/A")</td>
+                        <td>@(user.PhoneNumber ?? "N/A")</td>
+                        <td>
+                            <a asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-primary btn-sm">Sửa</a>
+                            <a asp-action="LoginAsUser" asp-route-id="@user.Id" class="btn btn-secondary btn-sm">Đăng nhập thay</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,402 @@
+### SmartHome API Tests
+
+### 1. Authentication Tests
+
+# Login
+POST http://localhost:5149/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@rangdong.com.vn",
+  "password": "admin"
+}
+
+###
+
+# Login with user account
+POST http://localhost:5149/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@rangdong.com.vn",
+  "password": "user"
+}
+
+###
+
+# Login with guest account
+POST http://localhost:5149/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "guest@randong.com.vn",
+  "password": "guest"
+}
+
+###
+
+# Register
+POST http://localhost:5149/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "test123",
+  "confirmPassword": "test123"
+}
+
+###
+
+# Get Profile (requires token)
+GET http://localhost:5149/api/auth/profile
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Update Profile (requires token)
+PUT http://localhost:5149/api/auth/profile
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "displayName": "Updated Name",
+  "phoneNumber": "0123456789"
+}
+
+###
+
+### 2. Device Tests
+
+# Get Devices (requires token)
+GET http://localhost:5149/api/device
+Authorization: Bearer {{auth_token}}
+###
+
+# Get Devices with pagination
+GET http://localhost:5149/api/device?skip=0&take=5
+Authorization: Bearer {{auth_token}}
+###
+
+# Search Devices
+GET http://localhost:5149/api/device/search?keyword=light
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Get Device by ID
+GET http://localhost:5149/api/device/1
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Create Device
+POST http://localhost:5149/api/device
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "name": "Test Light",
+  "type": "Light",
+  "roomID": 1,
+  "userID": "{{user_id}}"
+}
+
+###
+
+# Update Device
+PUT http://localhost:5149/api/device/1
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "name": "Updated Test Light",
+  "type": "Light",
+  "roomID": 1
+}
+
+###
+
+# Control Device
+POST http://localhost:5149/api/device/1/control
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "command": "turn_on"
+}
+
+###
+
+# Delete Device
+DELETE http://localhost:5149/api/device/1
+Authorization: Bearer {{auth_token}}
+
+###
+
+### 3. House Tests
+
+# Get Houses
+GET http://localhost:5149/api/house
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Search Houses
+GET http://localhost:5149/api/house/search?keyword=home
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Get House by ID
+GET http://localhost:5149/api/house/1
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Create House
+POST http://localhost:5149/api/house
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "name": "Test House",
+  "location": "123 Test Street"
+}
+
+###
+
+# Update House
+PUT http://localhost:5149/api/house/1
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "name": "Updated Test House",
+  "location": "456 Updated Street"
+}
+
+###
+
+# Get House Members
+GET http://localhost:5149/api/house/1/members
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Add House Member
+POST http://localhost:5149/api/house/1/members
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "userId": "{{member_user_id}}",
+  "role": "Member"
+}
+
+###
+
+# Remove House Member
+DELETE http://localhost:5149/api/house/1/members/{{member_user_id}}
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Join House
+POST http://localhost:5149/api/house/join
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "ownerId": "{{owner_id}}",
+  "houseId": 1
+}
+
+###
+
+# Delete House
+DELETE http://localhost:5149/api/house/1
+Authorization: Bearer {{auth_token}}
+
+###
+
+### 4. Room Tests
+
+# Get Rooms
+GET http://localhost:5149/api/room
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Get Rooms by House
+GET http://localhost:5149/api/room?houseId=1
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Search Rooms
+GET http://localhost:5149/api/room/search?keyword=living
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Get Room by ID
+GET http://localhost:5149/api/room/1
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Create Room
+POST http://localhost:5149/api/room
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "houseId": 1,
+  "name": "Test Room",
+  "detail": "Test room description"
+}
+
+###
+
+# Update Room
+PUT http://localhost:5149/api/room/1
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "name": "Updated Test Room",
+  "detail": "Updated room description"
+}
+
+###
+
+# Get Room Devices
+GET http://localhost:5149/api/room/1/devices
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Add Device to Room
+POST http://localhost:5149/api/room/1/devices/1
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Remove Device from Room
+DELETE http://localhost:5149/api/room/1/devices/1
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Delete Room
+DELETE http://localhost:5149/api/room/1
+Authorization: Bearer {{auth_token}}
+
+###
+
+### 5. Admin Tests (requires Admin role)
+
+# Get All Users
+GET http://localhost:5149/api/admin/users
+Authorization: Bearer {{admin_token}}
+
+###
+
+# Get User by ID
+GET http://localhost:5149/api/admin/users/{{user_id}}
+Authorization: Bearer {{admin_token}}
+
+###
+
+# Update User
+PUT http://localhost:5149/api/admin/users/{{user_id}}
+Authorization: Bearer {{admin_token}}
+Content-Type: application/json
+
+{
+  "email": "updated@example.com",
+  "displayName": "Updated User",
+  "phoneNumber": "0987654321",
+  "role": "Member"
+}
+
+###
+
+# Delete User
+DELETE http://localhost:5149/api/admin/users/{{user_id}}
+Authorization: Bearer {{admin_token}}
+
+###
+
+# Get All Houses
+GET http://localhost:5149/api/admin/houses
+Authorization: Bearer {{admin_token}}
+
+###
+
+# Get House by ID
+GET http://localhost:5149/api/admin/houses/1
+Authorization: Bearer {{admin_token}}
+
+###
+
+# Delete House
+DELETE http://localhost:5149/api/admin/houses/1
+Authorization: Bearer {{admin_token}}
+
+###
+
+# Get All Devices
+GET http://localhost:5149/api/admin/devices
+Authorization: Bearer {{admin_token}}
+
+###
+
+# Get Device by ID
+GET http://localhost:5149/api/admin/devices/1
+Authorization: Bearer {{admin_token}}
+
+###
+
+# Delete Device
+DELETE http://localhost:5149/api/admin/devices/1
+Authorization: Bearer {{admin_token}}
+
+###
+
+# Get All Roles
+GET http://localhost:5149/api/admin/roles
+Authorization: Bearer {{admin_token}}
+
+###
+
+# Create Role
+POST http://localhost:5149/api/admin/roles
+Authorization: Bearer {{admin_token}}
+Content-Type: application/json
+
+{
+  "name": "TestRole"
+}
+
+###
+
+# Delete Role
+DELETE http://localhost:5149/api/admin/roles/TestRole
+Authorization: Bearer {{admin_token}}
+
+###
+
+# Login as User
+POST http://localhost:5149/api/admin/users/{{user_id}}/login-as
+Authorization: Bearer {{admin_token}}
+
+###
+
+### Environment Variables (for VS Code REST Client extension)
+# Create a file named .env or use VS Code REST Client environment variables
+# auth_token: JWT token from login response
+# admin_token: JWT token from admin login
+# user_id: User ID for testing
+# member_user_id: Member user ID for testing
+# owner_id: Owner user ID for testing 

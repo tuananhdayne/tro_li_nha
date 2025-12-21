@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using DAO.BaseModels
+@using Services.Services
+@inject IUserService UserService
+@{
+    var user = UserService.GetLoggedInUser();
+}
+<nav>
+    
+    <i class='bx bx-menu'></i>
+    <form action="#">
+        <div class="form-input">
+            <input id="keyword" type="search" placeholder="Search...">
+            <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+        </div>
+    </form>
+    <input type="checkbox" id="switch-mode" hidden>
+    <label for="switch-mode" class="switch-mode"></label>
+    <a href="#" class="notification">
+        <i class='bx bxs-bell'></i>
+        <span class="num">3</span>
+    </a>
+    @*display hello user*@
+    <div class="hello-user">
+        @if(user.DisplayName != null)
+        {
+            <span>Hello, @user.DisplayName</span>
+        }
+        else
+        {
+            <span>Hello, @user.UserName</span>
+        }
+    </div>
+    <div class="profile-btn-wrapper">
+        <a href="#" class="profile">
+            <img src="~/pic/profile.jpg">
+        </a>
+        <button id="account-btn" class="account-btn">
+            <i class='bx bxs-down-arrow'></i>
+        </button>
+    </div>
+    <div id="account-menu" class="account-menu">
+        <ul>
+            <li><a href="@Url.Action("Index","Account")">Account</a></li>
+            @if(User.IsInRole("Admin"))
+            {
+                <li><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+            }
+            <li><a href="@Url.Action("Logout", "Account")">Log out</a></li>
+        </ul>
+    </div>
+</nav>

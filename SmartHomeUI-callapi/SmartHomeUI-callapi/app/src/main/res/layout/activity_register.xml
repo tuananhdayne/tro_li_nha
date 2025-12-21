@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?><!--Smart Home - Register Activity
+    Created for SmartHomeUI project-->
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/backgroungColor"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".smarthome.ui.activity.RegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/bg_2" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/circle_white"
+                android:elevation="2dp"
+                android:padding="15dp">
+
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/logo" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Đăng Ký"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="8dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/gradient_row_bg" />
+
+            <!-- Họ và tên -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/custom_edit_text"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_user" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:background="#CACACA" />
+
+                <EditText
+                    android:id="@+id/etFullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="Họ và tên"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/textColor"
+                    android:textColorHint="@color/hintColor"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+            <!-- Email -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/custom_edit_text"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_user" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:background="#CACACA" />
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/textColor"
+                    android:textColorHint="@color/hintColor"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+            <!-- Mật khẩu -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/custom_edit_text"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_password" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:background="#CACACA" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="Mật khẩu"
+                    android:inputType="textPassword"
+                    android:textColor="@color/textColor"
+                    android:textColorHint="@color/hintColor"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+            <!-- Xác nhận mật khẩu -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/custom_edit_text"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_password" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:background="#CACACA" />
+
+                <EditText
+                    android:id="@+id/etConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="Xác nhận mật khẩu"
+                    android:inputType="textPassword"
+                    android:textColor="@color/textColor"
+                    android:textColorHint="@color/hintColor"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+            <!-- Nút đăng ký -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/gradient_row_bg"
+                android:minHeight="48dp"
+                android:onClick="onRegisterClicked"
+                android:paddingLeft="80dp"
+                android:paddingTop="10dp"
+                android:paddingRight="80dp"
+                android:paddingBottom="10dp"
+                android:text="Đăng Ký"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <!-- Link đến trang đăng nhập -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đã có tài khoản? "
+                    android:textColor="@color/textColor"
+                    android:textSize="14dp"
+                    tools:ignore="TextSizeCheck" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onLoginClicked"
+                    android:padding="5dp"
+                    android:text="Đăng nhập"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14dp"
+                    android:textStyle="bold"
+                    tools:ignore="OnClick,TextSizeCheck,TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

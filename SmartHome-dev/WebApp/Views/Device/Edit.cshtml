@@ -1,0 +1,54 @@
+﻿@model DAO.BaseModels.Device
+@{
+    ViewData["Title"] = "Sửa thiết bị";
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Sửa thiết bị</h2>
+        <p>Chỉnh sửa thông tin thiết bị: @Model.Name</p>
+    </div>
+    <div class="topbar-actions">
+        <a asp-action="Index" class="btn btn-secondary">← Quay lại</a>
+    </div>
+</div>
+
+<div class="content" style="display: flex; justify-content: center; padding-top: 2rem;">
+    <div class="card" style="width: 100%; max-width: 500px;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Thông tin thiết bị</div>
+                    <div class="card-subtitle">Cập nhật tên và xem token</div>
+                </div>
+            </div>
+        </div>
+        <form asp-action="Edit" asp-route-id="@Model.ID" method="post">
+            <input type="hidden" asp-for="ID" />
+            <div class="card-body">
+                <div asp-validation-summary="All" style="color: #dc2626; margin-bottom: 1rem;"></div>
+                
+                <div class="form-group">
+                    <label asp-for="Name" class="form-label">Tên thiết bị</label>
+                    <input asp-for="Name" class="form-input" placeholder="Nhập tên thiết bị" required />
+                    <span asp-validation-for="Name" style="color: #dc2626; font-size: 0.85rem;"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Loại thiết bị</label>
+                    <div class="form-input" style="background: var(--card-bg); cursor: not-allowed;">@Model.Type</div>
+                </div>
+                
+                <div class="form-group">
+                    <label asp-for="DeviceToken" class="form-label">Device Token</label>
+                    <input asp-for="DeviceToken" class="form-input" style="background: var(--card-bg); cursor: not-allowed; font-family: monospace; font-size: 0.85rem;" readonly />
+                    <small class="text-muted">Token dùng để kết nối ESP32 với ThingsBoard</small>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Lưu thay đổi</button>
+                <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>

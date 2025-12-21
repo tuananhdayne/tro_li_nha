@@ -1,0 +1,28 @@
+﻿@model DAO.BaseModels.House
+@{
+    ViewData["Title"] = "Xóa nhà";
+}
+
+<div class="page-header">
+    <h1 class="page-title">Xác nhận xóa</h1>
+</div>
+
+<div class="card" style="max-width: 500px;">
+    <p>Bạn có chắc chắn muốn xóa nhà <strong>@Model.Name</strong>?</p>
+    <p class="card-subtitle">Địa chỉ: @(Model.Location ?? "Không có")</p>
+    <p class="card-subtitle">Số phòng: @Model.Rooms.Count</p>
+    
+    <div class="alert alert-error">
+        ⚠️ Hành động này không thể hoàn tác. Tất cả phòng và thiết bị trong nhà sẽ bị xóa.
+    </div>
+    
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="houseId" value="@Model.ID" />
+        
+        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-danger">Xóa nhà</button>
+            <a asp-action="Index" class="btn btn-outline">Hủy</a>
+        </div>
+    </form>
+</div>

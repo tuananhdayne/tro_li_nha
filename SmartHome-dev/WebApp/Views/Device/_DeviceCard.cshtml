@@ -1,0 +1,51 @@
+@model DAO.BaseModels.Device
+
+@{
+    var statusBadge = Model.Status == "on" ? "badge-success" : "badge-warning";
+    var statusText = Model.Status == "on" ? "Đang bật" : "Đang tắt";
+}
+
+<div class="card" data-device-id="@Model.ID">
+    <div class="card-header">
+        <div class="card-header-left">
+            <div class="card-icon">
+                @if (Model.Type == "Light") { <i class="fas fa-lightbulb"></i> }
+                else if (Model.Type == "DoorLock") { <i class="fas fa-lock"></i> }
+                else { <i class="fas fa-microchip"></i> }
+            </div>
+            <div>
+                <div class="card-title">@Model.Name</div>
+                <div class="card-subtitle">@Model.Type</div>
+            </div>
+        </div>
+        @if (Model.Type == "Light" || Model.Type == "DoorLock")
+        {
+            <span class="badge @statusBadge">@statusText</span>
+        }
+    </div>
+    <div class="card-body">
+        <table style="width: 100%; font-size: 0.85rem;">
+            <tr>
+                <td class="text-muted">MAC:</td>
+                <td>@(string.IsNullOrEmpty(Model.MacAddress) ? "N/A" : Model.MacAddress)</td>
+            </tr>
+        </table>
+        
+        @if (Model.Type == "Light" || Model.Type == "DoorLock")
+        {
+            <div style="margin-top: 1rem; display: flex; align-items: center; gap: 1rem;">
+                <label class="toggle">
+                    <input type="checkbox" @(Model.Status == "on" ? "checked" : "") 
+                           onchange="toggleDevice(@Model.ID, this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="text-muted">Điều khiển nhanh</span>
+            </div>
+        }
+    </div>
+    <div class="card-footer" style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+        <button onclick="openEditModal(@Model.ID, '@Model.Name')" class="btn btn-secondary btn-sm">Sửa</button>
+        <button onclick="deleteDevice(@Model.ID, '@Model.Name')" class="btn btn-danger btn-sm">Xóa</button>
+        <a href="/Device/Details/@Model.ID" class="btn btn-primary btn-sm">Chi tiết</a>
+    </div>
+</div>

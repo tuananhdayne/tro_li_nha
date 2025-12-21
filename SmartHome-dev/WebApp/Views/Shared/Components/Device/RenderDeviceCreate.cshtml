@@ -1,0 +1,42 @@
+﻿@inject IUserService UserService
+
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Services.Services
+@model DAO.BaseModels.Device
+<button id="addBtn" class="addBtn">
+    <i class='bx bxs-message-alt-add'></i>
+</button>
+<div id="addModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Thêm mới</h2>
+        <form asp-action="Create" method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeviceToken"></label>
+                <input asp-for="DeviceToken" class="form-control" required />
+                <span asp-validation-for="DeviceToken" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type"></label>
+                <select asp-for="Type" class="form-control" required>
+                    <option value="Light">Đèn (Light)</option>
+                    <option value="DoorLock">Khóa cửa (DoorLock)</option>
+                    <option value="TemperatureHumiditySensor">Cảm biến nhiệt độ (TempSensor)</option>
+                    <option value="MotionSensor">Cảm biến chuyển động (MotionSensor)</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="UserID" value="@UserService.GetCurrentUserId()" />
+            @if(ViewBag.RoomId != null)
+            {
+                <input type="hidden" asp-for="RoomID" value="@ViewBag.RoomId" />
+            }
+            <button type="submit" class="btn btn-primary">Lưu</button>
+        </form>
+    </div>
+</div>

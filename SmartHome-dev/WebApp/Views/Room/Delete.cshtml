@@ -1,0 +1,55 @@
+﻿@model DAO.BaseModels.Room
+@{
+    ViewData["Title"] = "Xóa phòng";
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Xác nhận xóa phòng</h2>
+        <p>Bạn đang xóa phòng: @Model.Name</p>
+    </div>
+    <div class="topbar-actions">
+        <a asp-action="Index" asp-route-houseId="@Model.HouseID" class="btn btn-secondary">← Quay lại</a>
+    </div>
+</div>
+
+<div class="content" style="display: flex; justify-content: center; padding-top: 2rem;">
+    <div class="card" style="width: 100%; max-width: 500px;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Xóa phòng "@Model.Name"?</div>
+                    <div class="card-subtitle">Hành động này không thể hoàn tác</div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table style="width: 100%; font-size: 0.9rem;">
+                <tr>
+                    <td class="text-muted" style="padding: 0.5rem 0;">Tên phòng:</td>
+                    <td style="padding: 0.5rem 0;"><strong>@Model.Name</strong></td>
+                </tr>
+                <tr>
+                    <td class="text-muted" style="padding: 0.5rem 0;">Mô tả:</td>
+                    <td style="padding: 0.5rem 0;">@(Model.Detail ?? "Không có")</td>
+                </tr>
+                <tr>
+                    <td class="text-muted" style="padding: 0.5rem 0;">Số thiết bị:</td>
+                    <td style="padding: 0.5rem 0;"><span class="badge badge-warning">@Model.Devices.Count thiết bị</span></td>
+                </tr>
+            </table>
+            
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(220,38,38,0.15); border-radius: 8px; border-left: 4px solid #dc2626;">
+                <strong style="color: #dc2626;">Cảnh báo:</strong> Tất cả thiết bị trong phòng sẽ bị xóa khỏi hệ thống.
+            </div>
+        </div>
+        <form asp-action="Delete" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="roomId" value="@Model.ID" />
+            <div class="card-footer" style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-danger" style="flex: 1;">Xóa phòng</button>
+                <a asp-action="Index" asp-route-houseId="@Model.HouseID" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>

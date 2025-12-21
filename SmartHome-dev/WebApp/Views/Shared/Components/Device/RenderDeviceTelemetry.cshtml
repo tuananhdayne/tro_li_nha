@@ -1,0 +1,59 @@
+@using Newtonsoft.Json.Linq
+@model IEnumerable<DAO.BaseModels.TelemetryData>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Hành động</th>
+        <th>Thời gian</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @{
+                    var body = item.Body;
+                    var json = JObject.Parse(body);
+                    string action = "";
+                    switch (json["method"]?.ToString())
+                    {
+                        case "setLedDim":
+                            action = "Chỉnh độ sáng";
+                            break;
+                        case "setFanSpeed":
+                            action = "Chỉnh tốc độ quạt";
+                            break;
+                        case "setRgbColor":
+                            action = "Đổi màu";
+                            break;
+                    }
+                    string param = "";
+                    switch (json["params"]?.ToString())
+                    {
+                        case "1":
+                            param = "Bật";
+                            break;
+                        case "0":
+                            param = "Tắt";
+                            break;
+                        case "{ \"r\": 0, \"g\": 0, \"b\": 0 }":
+                            param = "Tắt";
+                            break;
+                            
+                        default:
+                            param = json["params"].ToString();
+                            break;
+                    }
+                <text>
+                    @action @param
+                </text>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Timestamp)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

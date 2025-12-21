@@ -1,0 +1,99 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.32" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.33" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.33" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.35" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.35" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.35">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.18" />
+    <PackageReference Include="Mscc.GenerativeAI" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Configuration\Configuration.csproj" />
+    <ProjectReference Include="..\DAO\DAO.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Users\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Users\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Users\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Users\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Users\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\AccessDenied.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\ConfirmEmail.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\ExternalLogin.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\ForgotPassword.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\ForgotPasswordConfirmation.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Lockout.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Login.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\LoginWith2fa.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\LoginWithRecoveryCode.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Logout.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\DeletePersonalData.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\Disable2fa.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\Email.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\ExternalLogins.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\PersonalData.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\ResetAuthenticator.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\SetPassword.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\ShowRecoveryCodes.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\_StatusMessage.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Register.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\RegisterConfirmation.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\ResendEmailConfirmation.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\ResetPassword.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\ResetPasswordConfirmation.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\_StatusMessage.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Error.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Role\AddRoleClaim.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Role\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Role\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Role\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Role\EditRoleClaim.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Role\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Role\_StatusMessage.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Role\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Role\_ViewStart.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Users\AddRole.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Users\EditUserRoleClaim.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Users\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Users\SetPassword.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Users\_StatusMessage.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Users\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Pages\Users\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Template\" />
+  </ItemGroup>
+
+</Project>

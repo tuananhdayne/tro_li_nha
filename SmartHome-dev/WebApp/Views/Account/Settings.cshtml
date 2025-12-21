@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Cài đặt";
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Cài đặt</h2>
+        <p>Quản lý cài đặt tài khoản và ứng dụng</p>
+    </div>
+</div>
+
+<div class="content">
+    <div class="cards-grid" style="max-width: 800px;">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div>
+                        <div class="card-title">Thông báo</div>
+                        <div class="card-subtitle">Bật hoặc tắt thông báo</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary btn-sm">Bật thông báo</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div>
+                        <div class="card-title">Thông tin tài khoản</div>
+                        <div class="card-subtitle">Thay đổi thông tin tài khoản của bạn</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Index" class="btn btn-primary btn-sm">Chỉnh sửa</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div>
+                        <div class="card-title">Đổi mật khẩu</div>
+                        <div class="card-subtitle">Đảm bảo tài khoản an toàn</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a asp-action="ChangePassword" class="btn btn-primary btn-sm">Đổi mật khẩu</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div>
+                        <div class="card-title">Ngôn ngữ</div>
+                        <div class="card-subtitle">Chọn ngôn ngữ ứng dụng</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <select class="form-input" style="max-width: 200px;">
+                    <option value="vi">Tiếng Việt</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+@model IEnumerable<DAO.BaseModels.House>
+@{
+    ViewData["Title"] = "Quản lý nhà";
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Quản lý nhà</h2>
+        <p>Tất cả nhà trong hệ thống</p>
+    </div>
+    <div class="topbar-actions">
+        <a asp-action="Index" class="btn btn-secondary">← Quay lại</a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên nhà</th>
+                    <th>Địa chỉ</th>
+                    <th>Số phòng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var house in Model)
+                {
+                    <tr>
+                        <td>@house.ID</td>
+                        <td>@house.Name</td>
+                        <td>@(house.Location ?? "N/A")</td>
+                        <td>@house.Rooms.Count</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

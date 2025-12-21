@@ -1,0 +1,159 @@
+@model WebApp.Models.AccountViewModel
+@{
+    ViewData["Title"] = "Đăng ký";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng ký - SmartHome</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .auth-card {
+            background: #1f1f35;
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .auth-logo .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .auth-logo .logo-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+        .auth-logo h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 0.25rem;
+        }
+        .auth-logo p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        .auth-form .form-group {
+            margin-bottom: 1.25rem;
+        }
+        .auth-form .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        .auth-form .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .auth-form .form-input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        .auth-form .form-input::placeholder {
+            color: #64748b;
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76,175,80,0.3);
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .auth-footer a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </div>
+                <h1>SmartHome</h1>
+                <p>Tạo tài khoản mới</p>
+            </div>
+            
+            <form class="auth-form" asp-action="Register" method="post">
+                @Html.AntiForgeryToken()
+                
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="RegisterModel.Email" class="form-input" placeholder="email@example.com" required />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu</label>
+                    <input type="password" name="RegisterModel.Password" class="form-input" placeholder="Tối thiểu 6 ký tự" required minlength="6" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Xác nhận mật khẩu</label>
+                    <input type="password" name="RegisterModel.ConfirmPassword" class="form-input" placeholder="Nhập lại mật khẩu" required />
+                </div>
+                
+                <button type="submit" class="auth-btn">Đăng ký</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Đã có tài khoản? <a asp-action="Login">Đăng nhập</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

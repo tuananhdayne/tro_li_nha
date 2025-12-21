@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Lỗi hệ thống";
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Đã xảy ra lỗi</h2>
+        <p>Hệ thống gặp sự cố</p>
+    </div>
+</div>
+
+<div class="content" style="display: flex; justify-content: center; padding-top: 3rem;">
+    <div class="card" style="width: 100%; max-width: 450px; text-align: center;">
+        <div class="card-body">
+            <div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;">⚠️</div>
+            <h3 style="margin-bottom: 0.5rem; color: #f59e0b;">Lỗi hệ thống</h3>
+            <p class="text-muted" style="margin-bottom: 1.5rem;">Xin lỗi, một lỗi không xác định đã xảy ra. Vui lòng thử lại sau hoặc liên hệ quản trị viên.</p>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="javascript:history.back()" class="btn btn-secondary">← Quay lại</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Trang chủ</a>
+            </div>
+        </div>
+    </div>
+</div>

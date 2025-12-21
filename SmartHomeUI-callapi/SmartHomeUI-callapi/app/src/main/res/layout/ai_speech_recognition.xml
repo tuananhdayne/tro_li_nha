@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_green_pattern"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Nội dung chia 2 phần -->
+
+    <LinearLayout
+        android:id="@+id/contentRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:weightSum="2.5">
+
+        <!-- Phần 1: Người dùng nói -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="16dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_4"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Người dùng nói"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvHeard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="(chưa có)"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Phần 2: Phản hồi hệ thống -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="16dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_5"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phản hồi hệ thống"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="(đang chờ xác nhận thiết bị…)"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@drawable/half_circle"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <LinearLayout
+            android:id="@+id/home_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:id="@+id/home_rl"
+                android:layout_width="50dp"
+                android:layout_height="50dp">
+
+                <ImageView
+                    android:id="@+id/ivHome"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/home_20px"
+                    android:contentDescription="@string/app_name" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/room_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:id="@+id/room_rl"
+                android:layout_width="46dp"
+                android:layout_height="50dp">
+
+                <ImageView
+                    android:id="@+id/ivRooms"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/door_open_24px"
+                    android:contentDescription="@string/app_name" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/control_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <!-- THÊM ID CHO NÚT “+” -->
+            <RelativeLayout
+                android:id="@+id/control_rl"
+                android:layout_width="50dp"
+                android:layout_height="50dp">
+
+                <ImageView
+                    android:id="@+id/ivControl"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/mic_24px"
+                    android:contentDescription="@string/app_name" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/device_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:id="@+id/device_rl"
+                android:layout_width="50dp"
+                android:layout_height="50dp">
+
+                <ImageView
+                    android:id="@+id/ivDevices"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/home_iot_device_24px"
+                    android:contentDescription="@string/app_name" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/setting_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:id="@+id/setting_rl"
+                android:layout_width="50dp"
+                android:layout_height="50dp">
+
+                <ImageView
+                    android:id="@+id/ivSetting"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/settings_24px"
+                    android:contentDescription="@string/app_name" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Nút micro tròn góc dưới phải -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Bắt đầu nghe"
+        app:srcCompat="@drawable/mic_24px"
+        app:tint="@android:color/white"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:useCompatPadding="true"
+        android:layout_marginBottom="80dp"
+        android:layout_marginEnd="25dp"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_gravity="end|bottom"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

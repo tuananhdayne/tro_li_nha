@@ -1,0 +1,215 @@
+﻿@model IEnumerable<DAO.BaseModels.House>
+@{
+    ViewData["Title"] = "Danh sách nhà";
+}
+
+<div class="topbar">
+    <div class="topbar-title">
+        <h2>Nhà của tôi</h2>
+        <p>Quản lý các ngôi nhà trong hệ thống</p>
+    </div>
+    <div class="topbar-actions">
+        <button onclick="openAddHouseModal()" class="btn btn-primary">+ Thêm nhà mới</button>
+    </div>
+</div>
+
+<div class="content">
+    @if (!Model.Any())
+    {
+        <div class="card" style="max-width: 500px; margin: 2rem auto; text-align: center;">
+            <div class="card-body">
+                <h3 style="margin-bottom: 0.5rem;">Chưa có nhà nào</h3>
+                <p class="text-muted" style="margin-bottom: 1.5rem;">Bắt đầu bằng cách thêm ngôi nhà đầu tiên của bạn</p>
+                <button onclick="openAddHouseModal()" class="btn btn-primary">+ Thêm nhà mới</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="cards-grid">
+            @foreach (var house in Model)
+            {
+                <div class="card" style="@(house.IsActive ? "" : "opacity: 0.6;")">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <div>
+                                <div class="card-title">
+                                    @house.Name
+                                    @if (house.IsActive)
+                                    {
+                                        <span class="badge badge-success" style="font-size: 0.7rem; margin-left: 0.5rem;">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger" style="font-size: 0.7rem; margin-left: 0.5rem;">Inactive</span>
+                                    }
+                                </div>
+                                <div class="card-subtitle">@(house.Location ?? "Chưa có địa chỉ")</div>
+                            </div>
+                        </div>
+                        <span class="badge badge-success">@house.Rooms.Count phòng</span>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-controller="Room" asp-action="Index" asp-route-houseId="@house.ID" class="btn btn-primary btn-sm">Xem phòng</a>
+                        <button onclick="openEditHouseModal(@house.ID, '@house.Name', '@(house.Location ?? "")', @(house.IsActive ? "true" : "false"))" class="btn btn-secondary btn-sm">Sửa</button>
+                        <button onclick="openDeleteHouseModal(@house.ID, '@house.Name', @house.Rooms.Count)" class="btn btn-danger btn-sm">Xóa</button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<!-- Modal Thêm nhà -->
+<div id="addHouseModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width: 450px; width: 90%; margin: 0;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Thêm nhà mới</div>
+                    <div class="card-subtitle">Tạo nhà để quản lý phòng và thiết bị</div>
+                </div>
+            </div>
+        </div>
+        <form asp-action="Create" method="post" id="addHouseForm">
+            @Html.AntiForgeryToken()
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="form-label">Tên nhà <span style="color: var(--primary);">*</span></label>
+                    <input type="text" name="name" id="houseName" class="form-input" placeholder="VD: Nhà chính, Căn hộ 501..." required />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Địa chỉ</label>
+                    <input type="text" name="location" id="houseLocation" class="form-input" placeholder="VD: 123 Nguyễn Văn A, Q1" />
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Tạo nhà</button>
+                <button type="button" onclick="closeAddHouseModal()" class="btn btn-secondary">Hủy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Sửa nhà -->
+<div id="editHouseModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width: 450px; width: 90%; margin: 0;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Sửa nhà</div>
+                    <div class="card-subtitle">Cập nhật thông tin nhà</div>
+                </div>
+            </div>
+        </div>
+        <form asp-action="Edit" method="post" id="editHouseForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="ID" id="editHouseId" />
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="form-label">Tên nhà <span style="color: var(--primary);">*</span></label>
+                    <input type="text" name="Name" id="editHouseName" class="form-input" required />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Địa chỉ</label>
+                    <input type="text" name="Location" id="editHouseLocation" class="form-input" placeholder="Địa chỉ nhà..." />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                        <input type="checkbox" name="IsActive" id="editHouseIsActive" value="true" style="width: 18px; height: 18px;" />
+                        <input type="hidden" name="IsActive" value="false" />
+                        <span>Kích hoạt nhà (Active)</span>
+                    </label>
+                    <small class="text-muted">Nhà inactive sẽ không hiển thị với thành viên khác</small>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Lưu thay đổi</button>
+                <button type="button" onclick="closeEditHouseModal()" class="btn btn-secondary">Hủy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Xóa nhà -->
+<div id="deleteHouseModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width: 450px; width: 90%; margin: 0;">
+        <div class="card-header">
+            <div class="card-header-left">
+                <div>
+                    <div class="card-title">Xóa nhà</div>
+                    <div class="card-subtitle">Xác nhận xóa nhà</div>
+                </div>
+            </div>
+        </div>
+        <form asp-action="Delete" method="post" id="deleteHouseForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="houseId" id="deleteHouseId" />
+            <div class="card-body">
+                <p>Bạn có chắc chắn muốn xóa nhà <strong id="deleteHouseName"></strong>?</p>
+                <p id="deleteHouseRoomCount" class="text-muted"></p>
+                
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(220,38,38,0.15); border-radius: 8px; border-left: 4px solid #dc2626;">
+                    <strong style="color: #dc2626;">Cảnh báo:</strong> Tất cả phòng và thiết bị trong nhà sẽ bị xóa!
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-danger" style="flex: 1;">Xóa nhà</button>
+                <button type="button" onclick="closeDeleteHouseModal()" class="btn btn-secondary">Hủy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+// Add House Modal
+function openAddHouseModal() {
+    document.getElementById('addHouseModal').style.display = 'flex';
+    document.getElementById('houseName').value = '';
+    document.getElementById('houseLocation').value = '';
+}
+
+function closeAddHouseModal() {
+    document.getElementById('addHouseModal').style.display = 'none';
+}
+
+// Edit House Modal
+function openEditHouseModal(id, name, location, isActive) {
+    document.getElementById('editHouseModal').style.display = 'flex';
+    document.getElementById('editHouseId').value = id;
+    document.getElementById('editHouseName').value = name;
+    document.getElementById('editHouseLocation').value = location;
+    document.getElementById('editHouseIsActive').checked = isActive;
+}
+
+function closeEditHouseModal() {
+    document.getElementById('editHouseModal').style.display = 'none';
+}
+
+// Delete House Modal
+function openDeleteHouseModal(id, name, roomCount) {
+    document.getElementById('deleteHouseModal').style.display = 'flex';
+    document.getElementById('deleteHouseId').value = id;
+    document.getElementById('deleteHouseName').textContent = name;
+    document.getElementById('deleteHouseRoomCount').textContent = 
+        roomCount > 0 ? `Nhà này có ${roomCount} phòng sẽ bị xóa.` : 'Nhà này không có phòng.';
+}
+
+function closeDeleteHouseModal() {
+    document.getElementById('deleteHouseModal').style.display = 'none';
+}
+
+// Close modals on outside click
+['addHouseModal', 'editHouseModal', 'deleteHouseModal'].forEach(id => {
+    document.getElementById(id).addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.style.display = 'none';
+        }
+    });
+});
+</script>
+}

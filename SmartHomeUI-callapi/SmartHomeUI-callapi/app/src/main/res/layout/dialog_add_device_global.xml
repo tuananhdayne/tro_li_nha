@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_green_pattern"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tvDlgTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Thêm thiết bị vào Kho"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- Name -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tên thiết bị"
+        app:hintTextColor="@color/white_70">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtDeviceName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:textColor="@android:color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Device Token -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Device token"
+        app:hintTextColor="@color/white_70">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtDeviceToken"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textVisiblePassword"
+            android:textColor="@android:color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Type (option bằng Chip) -->
+    <TextView
+        android:id="@+id/tvType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Loại thiết bị"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:selectionRequired="true"
+        app:singleLine="false"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chLight"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Light"
+            app:checkedIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chDoorLock"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DoorLock"
+            app:checkedIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chTempHumidity"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TemperatureHumiditySensor"
+            app:checkedIconVisible="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chMotion"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MotionSensor"
+            app:checkedIconVisible="true" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Huỷ" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Lưu" />
+    </LinearLayout>
+</LinearLayout>

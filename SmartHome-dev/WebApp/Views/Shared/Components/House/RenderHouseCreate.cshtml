@@ -1,0 +1,20 @@
+﻿@model DAO.BaseModels.House
+
+<button id="addBtn" class="addBtn">
+    <i class='bx bxs-message-alt-add'></i>
+</button>
+<div id="addModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Thêm mới</h2>
+        <form asp-action="Create" method="post">
+            <label asp-for="Name">Tên:</label>
+            <input asp-for="Name" required />
+            <br>
+            <label asp-for="Location">Địa chỉ:</label>
+            <textarea asp-for="Location" rows="4" required></textarea>
+            <br>
+            <button type="submit">Lưu</button>
+        </form>
+    </div>
+</div>

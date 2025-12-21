@@ -1,0 +1,132 @@
+﻿@using DAO.Models.Devices
+@model IEnumerable<DAO.BaseModels.Device>
+
+@foreach (var device in Model)
+    {
+        // check if device instance of Light
+        if (device is Light)
+        {
+            <li data-device-id="@device.ID">
+                <span class="text">
+                    <div class="textlight">
+                        <div class="device-top">
+                            <h3>@device.Name</h3>
+                            <div class="btn-container-device">
+                                <a class="edit-btn-device" href="@Url.Action("Edit","Device", new { id = @device.ID })">
+                                    <i class='bx bxs-edit-alt'></i> 
+                                </a>
+                                <a class="delete-btn-device" href="@Url.Action("Delete","Device", new { id = @device.ID })">
+                                    <i class="bx bx-trash"></i> 
+                                </a>
+                            </div>
+                        </div>
+                        <div class="lamp-wrapper-main">
+                            <div class="lamp-rope"></div>
+                            <div class="lamp-inner">
+                                <div class="lamp-main lamp-bottom"></div>
+                                <div class="lamp-blub"></div>
+                            </div>
+                        </div>
+                        <form class="lamp-input">
+                            <a class="toggle-btn light">
+                                <i class='bx bx-power-off'></i>
+                            </a>
+                            <label for="slider" class="slider-label">Độ sáng:</label>
+                            <div class="slider-container">
+                                <div class="icon-sun">
+                                    <i class='bx bxs-sun'></i>
+                                </div>
+                                <input type="range" id="slider" value="0" min="0" max="10" class="slider">
+                            </div>
+                        </form>
+                    </div>
+                </span>
+            </li>
+        }
+
+        if (device.Type == "DoorLock")
+        {
+            <li data-device-id="@device.ID">
+                <span class="text">
+                    <div class="textdoor">
+                        <div class="device-top">
+                            <h3>@device.Name</h3>
+                            <div class="btn-container-device">
+                                <a class="edit-btn-device" href="@Url.Action("Edit","Device", new { id = @device.ID })">
+                                    <i class='bx bxs-edit-alt'></i> 
+                                </a>
+                                <a class="delete-btn-device" href="@Url.Action("Delete","Device", new { id = @device.ID })">
+                                    <i class="bx bx-trash"></i> 
+                                </a>
+                            </div>
+                        </div>
+                        <div class="door-container">
+                            <div class="door-closed">
+                                <i class='bx bxs-lock-alt' style="font-size: 64px; color: #E53E3E;"></i>
+                                <p>Đã khóa</p>
+                            </div>
+                            <div class="door-open" style="display: none;">
+                                <i class='bx bx-lock-open-alt' style="font-size: 64px; color: #48BB78;"></i>
+                                <p>Đã mở</p>
+                            </div>
+                        </div>
+                        <form class="lamp-input">
+                            <a class="toggle-btn door">
+                                <i class='bx bx-lock-alt'></i>
+                            </a>
+                        </form>
+                    </div>
+                </span>
+            </li>
+        }
+
+        if (device.Type == "TemperatureHumiditySensor")
+        {
+            <li data-device-id="@device.ID">
+                <span class="text">
+                    <div class="textsensor">
+                        <div class="device-top">
+                            <h3>@device.Name</h3>
+                            <div class="btn-container-device">
+                                <a class="edit-btn-device" href="@Url.Action("Edit","Device", new { id = @device.ID })">
+                                    <i class='bx bxs-edit-alt'></i> 
+                                </a>
+                                <a class="delete-btn-device" href="@Url.Action("Delete","Device", new { id = @device.ID })">
+                                    <i class="bx bx-trash"></i> 
+                                </a>
+                            </div>
+                        </div>
+                        <div class="sensor-data">
+                            <div><i class='bx bxs-thermometer'></i> <span class="temp-value">--</span>°C</div>
+                            <div><i class='bx bxs-droplet'></i> <span class="humidity-value">--</span>%</div>
+                        </div>
+                    </div>
+                </span>
+            </li>
+        }
+
+        if (device.Type == "MotionSensor")
+        {
+            <li data-device-id="@device.ID">
+                <span class="text">
+                    <div class="textsensor">
+                        <div class="device-top">
+                            <h3>@device.Name</h3>
+                            <div class="btn-container-device">
+                                <a class="edit-btn-device" href="@Url.Action("Edit","Device", new { id = @device.ID })">
+                                    <i class='bx bxs-edit-alt'></i> 
+                                </a>
+                                <a class="delete-btn-device" href="@Url.Action("Delete","Device", new { id = @device.ID })">
+                                    <i class="bx bx-trash"></i> 
+                                </a>
+                            </div>
+                        </div>
+                        <div class="motion-status">
+                            <i class='bx bx-walk' style="font-size: 48px;"></i>
+                            <span class="motion-value">Không có người</span>
+                        </div>
+                    </div>
+                </span>
+            </li>
+        }
+    }

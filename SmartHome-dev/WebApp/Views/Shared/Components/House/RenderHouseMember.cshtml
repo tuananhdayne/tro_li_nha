@@ -1,0 +1,71 @@
+﻿@using System.Security.Claims
+@using Services.Thingsboard_Services.BaseModel
+@model IEnumerable<DAO.BaseModels.HouseMember>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.User.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.DisplayName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+    <tr></tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                <a href="@Url.Action("RemoveHouseMember", "House", new { userId = item.UserID, houseId = @ViewBag.HouseId })">Remove</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+    <tfoot>
+    <tr>
+        @{
+            var ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var houseId = ViewBag.HouseId;
+            var invitationLink = Url.Action("JoinHouse", "House", new { ownerId = ownerId, houseId = houseId });
+        }
+        <td>
+            <button class="btn btn-primary" onclick="copyToClipboard('@invitationLink')">Copy Invitation Link</button>
+        </td>
+    </tr>
+    </tfoot>
+</table>
+<script>
+    function copyToClipboard(text) {
+        // get window.location.origin
+        let origin = window.location.origin;
+        navigator.clipboard.writeText(origin+text).then(function() {
+            alert('Invitation link copied to clipboard');
+        }, function(err) {
+            console.error('Could not copy text: ', err);
+        });
+    }
+</script>
